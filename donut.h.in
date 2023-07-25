@@ -1,0 +1,7 @@
+// donut.h.in
+#ifndef DONUT_H
+#define DONUT_H
+
+#define DONUT_ASSETS_DIR "@DONUT_ASSETS_DIR@"
+
+#endif // DONUT_H
