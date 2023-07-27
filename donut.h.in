@@ -2,6 +2,6 @@
 #ifndef DONUT_H
 #define DONUT_H
 
-#define DONUT_ASSETS_DIR "@DONUT_ASSETS_DIR@"
+#define DONUT_ASSETS_DIR(x) ("@DONUT_ASSETS_DIR@/" #x)
 
 #endif // DONUT_H

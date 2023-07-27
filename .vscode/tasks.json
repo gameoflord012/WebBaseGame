@@ -14,7 +14,7 @@
             }
         },
         {
-            "label": "Run Donut",
+            "label": "Donut run",
             "type": "shell",
             "command": "./Donut",
             "options": {
@@ -23,6 +23,19 @@
             "dependsOn": "Build ninja",
             "group": {
                 "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Donut test",
+            "type": "shell",
+            "command": "./tests",
+            "options": {
+                "cwd" : "${workspaceFolder}/build"
+            },
+            "dependsOn": "Build ninja",
+            "group": {
+                "kind": "test",
                 "isDefault": true
             }
         }

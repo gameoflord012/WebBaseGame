@@ -3,8 +3,21 @@ project(WebBaseGame)
 
 add_executable(Donut main.cpp)
 
-find_package(SDL3 REQUIRED CONFIG REQUIRED COMPONENTS SDL3-shared)
-target_link_libraries(Donut PRIVATE SDL3::SDL3)
+find_package(Catch2 3 REQUIRED)
+
+find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
+find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
+find_package(SDL2_image REQUIRED)
+
+target_link_libraries(Donut PRIVATE SDL2::SDL2)
 
 set(DONUT_ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
 configure_file(${CMAKE_SOURCE_DIR}/donut.h.in ${CMAKE_SOURCE_DIR}/donut.h)
+
+
+# These tests can use the Catch2-provided main
+add_executable(tests test.cpp)
+
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+target_link_libraries(Donut PRIVATE SDL2::SDL2 SDL2_image::SDL2_image)
+
