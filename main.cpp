@@ -2,22 +2,20 @@
 and may not be redistributed without written permission.*/
 
 //Using SDL, SDL_image, standard IO, and strings
-#include <SDL.h>
-#include <SDL_image.h>
+
 #include <stdio.h>
 #include <string>
-#ifdef _JS
-#include <emscripten.h>
-#endif
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #include "donut.h"
 #include "utils.h"
 
-void keyDown(SDL_Keycode keycode) {}
-//The window we'll be rendering to
+void keyDown(int keycode);
 
-//Main loop flag
 bool quit = false;
+Sprite donut;
 
 void loop_handler(void*)
 {
@@ -40,13 +38,6 @@ void loop_handler(void*)
 	//Clear screen
 	SDL_RenderClear( Donut::gRenderer );
 
-	Sprite donut;
-	donut.rect.x = 0;
-	donut.rect.y = 0;
-	donut.rect.w = 100;
-	donut.rect.h = 200;
-	donut.texture = Donut::loadTexture(DONUT_ASSETS_DIR(donut.png));
-
 	//Render texture to screen
 	Donut::rendererCopySprite(donut);
 
@@ -55,25 +46,41 @@ void loop_handler(void*)
 
 }
 
+void keyDown(int keycode)
+{
+	switch (keycode)
+	{
+	case SDLK_LEFT:
+		donut.rect.x -= 5;
+		break;
+	case SDLK_RIGHT:
+		donut.rect.x += 5;
+		break;
+	default:
+		break;
+	}
+}
+
 int main( int argc, char* args[] )
 {
 	//Start up SDL and create window
-	if( !Donut::init(500, 250) )
+	if( !Donut::init(1000, 500) )
 	{
 		printf( "Failed to initialize!\n" );
 	}
 	else
 	{
-#ifdef _JS
-
-		emscripten_set_main_loop_arg(loop_handler, NULL, -1, 1); 
-#else
 		//While application is running
+		donut.rect.x = 0;
+		donut.rect.y = 0;
+		donut.rect.w = 100;
+		donut.rect.h = 200;
+		donut.texture = Donut::loadTexture(DONUT_ASSETS_DIR(donut.png));
+
 		while( !quit )
 		{
 			loop_handler(NULL);	
 		}
-#endif
 	}
 
 	//Free resources and close SDL
