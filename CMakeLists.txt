@@ -8,12 +8,17 @@ find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
 find_package(SDL2_image REQUIRED)
 
 set(DONUT_ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
-configure_file(${CMAKE_SOURCE_DIR}/donut.h.in ${CMAKE_SOURCE_DIR}/donut.h)
+set(DONUT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/Donut")
+
+configure_file(${DONUT_SOURCE_DIR}/donut.h.in ${DONUT_SOURCE_DIR}/donut.h)
 
 
 # These tests can use the Catch2-provided main
 add_executable(tests test.cpp)
-add_executable(Donut main.cpp utils.cpp donut.cpp)
+add_executable(Donut 
+    main.cpp
+    ${DONUT_SOURCE_DIR}/utils.cpp
+    ${DONUT_SOURCE_DIR}/donut.cpp)
 
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 
