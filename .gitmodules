@@ -8,3 +8,6 @@
 	path = SDL_image
 	url = https://github.com/libsdl-org/SDL_image.git
 	branch = SDL2
+[submodule "libs/Box2D"]
+	path = libs/Box2D
+	url = https://github.com/erincatto/box2d.git

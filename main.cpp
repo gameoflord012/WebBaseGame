@@ -8,7 +8,6 @@ and may not be redistributed without written permission.*/
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
 #include "Donut/donut.h"
 #include "Donut/utils.h"
 
@@ -62,8 +61,6 @@ int main( int argc, char* args[] )
 				}
 			}
 		}
-
-		printf("%f\n", deltaTimeInSeconds);
 		
 		//Clear screen
 		SDL_RenderClear( Donut::gRenderer );
