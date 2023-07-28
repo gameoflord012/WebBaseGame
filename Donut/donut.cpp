@@ -3,6 +3,7 @@
 
 SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;
+SDL_GLContext Donut::gContext = NULL;
 
 
 bool Donut::init(int screenWidth, int screenHeight)
@@ -24,8 +25,12 @@ bool Donut::init(int screenWidth, int screenHeight)
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 
+		SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 );
+		SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 );
+		SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE );
+
 		//Create window
-		Donut::gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN );
+		Donut::gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 		if( Donut::gWindow == NULL )
 		{
 			printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -33,6 +38,13 @@ bool Donut::init(int screenWidth, int screenHeight)
 		}
 		else
 		{
+			gContext = SDL_GL_CreateContext( gWindow );
+
+			if(gContext == NULL)
+			{
+				SDL_LogError( 0, "OpenGL context could not be created! SDL Error: %s\n", SDL_GetError() );
+			}
+
 			//Create renderer for window
 			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 

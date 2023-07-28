@@ -8,8 +8,29 @@ and may not be redistributed without written permission.*/
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <box2d/box2d.h>
 #include "Donut/donut.h"
 #include "Donut/utils.h"
+
+b2Vec2 gravity(0.0f, -10.0f);
+b2World world(gravity);
+Sprite donut;
+b2Body * groundBody;
+
+void initEntitites()
+{
+	donut = {{Donut::loadTexture(DONUT_ASSETS_DIR(donut.png))}, {0, 0, 700, 700}};
+
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f);
+
+	groundBody = world.CreateBody(&groundBodyDef);
+
+	b2PolygonShape groundBox;
+	groundBox.SetAsBox(50.0f, 10.0f);
+	
+	groundBody->CreateFixture(&groundBox, 0.0f);
+}
 
 int main( int argc, char* args[] )
 {
@@ -20,17 +41,9 @@ int main( int argc, char* args[] )
 		return -1;
 	}
 
-	Sprite donut;
+	initEntitites();
 
-	donut.rect.x = 0;
-	donut.rect.y = 0;
-	donut.rect.w = 100;
-	donut.rect.h = 200;
-	donut.texture = Donut::loadTexture(DONUT_ASSETS_DIR(donut.png));
-
-	SDL_Event e;
 	bool quit = false;
-
 	Uint32 startTime = SDL_GetTicks();
 	float deltaTimeInSeconds;
 
@@ -39,6 +52,7 @@ int main( int argc, char* args[] )
 		deltaTimeInSeconds = (float)(SDL_GetTicks() - startTime) / 1000.;
 		startTime = SDL_GetTicks();
 
+		SDL_Event e;
 		while( SDL_PollEvent( &e ) != 0 )
 		{
 			//User requests quit

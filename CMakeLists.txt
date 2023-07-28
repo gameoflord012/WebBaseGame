@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(WebBaseGame)
 
 find_package(Catch2 3 REQUIRED)
+find_package(box2d REQUIRED)
 
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 find_package(SDL2 REQUIRED CONFIG COMPONENTS SDL2main)
@@ -22,6 +23,8 @@ add_executable(Donut
 
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 
-target_link_libraries(Donut PRIVATE SDL2::SDL2 SDL2_image::SDL2_image)
-target_link_libraries(Donut PRIVATE SDL2::SDL2)
+target_link_libraries(Donut PRIVATE 
+    SDL2::SDL2 
+    SDL2_image::SDL2_image
+    box2d)
 

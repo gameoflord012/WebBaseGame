@@ -24,6 +24,7 @@ public:
 private:
     static int gScreenWidth;
     static int gScreenHeight;
+    static SDL_GLContext gContext;
 };
 
 #define DONUT_ASSETS_DIR(x) ("/home/swordmaster/Desktop/QtGame/assets/" #x)
