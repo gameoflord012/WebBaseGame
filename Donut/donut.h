@@ -2,6 +2,7 @@
 #ifndef DONUT_H
 #define DONUT_H
 
+#include <GL/glew.h>
 #include <SDL2/SDL.h>
 
 struct Sprite

@@ -17,6 +17,8 @@ b2World world(gravity);
 Sprite donut;
 b2Body * groundBody;
 
+void MyOpenGL();
+
 void initEntitites()
 {
 	donut = {{Donut::loadTexture(DONUT_ASSETS_DIR(donut.png))}, {0, 0, 700, 700}};
@@ -55,7 +57,7 @@ int main( int argc, char* args[] )
 		SDL_Event e;
 		while( SDL_PollEvent( &e ) != 0 )
 		{
-			//User requests quit
+			//User requests quitit ad
 			if( e.type == SDL_QUIT )
 			{
 				quit = true;
@@ -80,7 +82,8 @@ int main( int argc, char* args[] )
 		SDL_RenderClear( Donut::gRenderer );
 
 		//Render texture to screen
-		Donut::rendererCopySprite(donut);
+		// Donut::rendererCopySprite(donut);
+		MyOpenGL();
 
 		//Update screen
 		SDL_RenderPresent( Donut::gRenderer );
@@ -90,4 +93,41 @@ int main( int argc, char* args[] )
 	Donut::clean();
 
 	return 0;
+}
+
+float vertices[] = {
+    -0.5f, -0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f
+};  
+
+void MyOpenGL()
+{
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);	
+
+	const char *  vertexShaderSource = 
+		"#version 330 core"
+		"layout (location = 0) in vec3 aPos;"
+		"void main()"
+		"{"
+			"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);"
+		"};";
+
+	unsigned int vertexShader;
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+
+	int  success;
+	char infoLog[512];
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+	if(!success)
+	{
+		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		SDL_LogError(0, "ERROR::SHADER::VERTEX::COMPILATION_FAILED %s\n", infoLog);
+	}
 }

@@ -45,6 +45,13 @@ bool Donut::init(int screenWidth, int screenHeight)
 				SDL_LogError( 0, "OpenGL context could not be created! SDL Error: %s\n", SDL_GetError() );
 			}
 
+			GLenum err = glewInit();
+			if (GLEW_OK != err)
+			{
+				/* Problem: glewInit failed, something is seriously wrong. */
+				SDL_LogError(0, "Error: %s\n", glewGetErrorString(err));
+			}
+
 			//Create renderer for window
 			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 

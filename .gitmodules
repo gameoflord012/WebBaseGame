@@ -11,3 +11,6 @@
 [submodule "libs/Box2D"]
 	path = libs/Box2D
 	url = https://github.com/erincatto/box2d.git
+[submodule "libs/glad"]
+	path = libs/glad
+	url = https://github.com/Dav1dde/glad.git
