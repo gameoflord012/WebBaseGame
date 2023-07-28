@@ -9,6 +9,9 @@ and may not be redistributed without written permission.*/
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <box2d/box2d.h>
+
+#define DONUT_USE_GL
+
 #include "Donut/donut.h"
 #include "Donut/utils.h"
 
@@ -17,11 +20,13 @@ b2World world(gravity);
 Sprite donut;
 b2Body * groundBody;
 
-void MyOpenGL();
+bool MyOpenGL();
+void MyOpenGLRender();
+
 
 void initEntitites()
 {
-	donut = {{Donut::loadTexture(DONUT_ASSETS_DIR(donut.png))}, {0, 0, 700, 700}};
+	donut = {Donut::loadTexture(DONUT_ASSETS_DIR(donut.png)), {0, 0, 700, 700}};
 
 	b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f, -10.0f);
@@ -39,11 +44,16 @@ int main( int argc, char* args[] )
 	//Start up SDL and create window
 	if( !Donut::init(1000, 500) )
 	{
-		printf( "Failed to initialize!\n" );
+		SDL_Log( "Failed to initialize!\n" );
 		return -1;
 	}
 
-	initEntitites();
+	if(!MyOpenGL())
+	{
+		SDL_Log("OpenGL failed!");
+		return -1;
+	}
+	
 
 	bool quit = false;
 	Uint32 startTime = SDL_GetTicks();
@@ -53,6 +63,11 @@ int main( int argc, char* args[] )
 	{
 		deltaTimeInSeconds = (float)(SDL_GetTicks() - startTime) / 1000.;
 		startTime = SDL_GetTicks();
+
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+		MyOpenGLRender();
 
 		SDL_Event e;
 		while( SDL_PollEvent( &e ) != 0 )
@@ -77,16 +92,8 @@ int main( int argc, char* args[] )
 				}
 			}
 		}
-		
-		//Clear screen
-		SDL_RenderClear( Donut::gRenderer );
 
-		//Render texture to screen
-		// Donut::rendererCopySprite(donut);
-		MyOpenGL();
-
-		//Update screen
-		SDL_RenderPresent( Donut::gRenderer );
+		SDL_GL_SwapWindow(Donut::gWindow);
 	}
 
 	//Free resources and close SDL
@@ -101,19 +108,30 @@ float vertices[] = {
      0.0f,  0.5f, 0.0f
 };  
 
-void MyOpenGL()
+unsigned int shaderProgram;
+GLuint VAO;
+
+bool MyOpenGL()
 {
+	int  success;
+	char infoLog[512];
+
+	glGenVertexArrays(1, &VAO);
+
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
+
+	glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);	
 
 	const char *  vertexShaderSource = 
-		"#version 330 core"
-		"layout (location = 0) in vec3 aPos;"
-		"void main()"
-		"{"
-			"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);"
+		"#version 330 core\n"
+		"layout (location = 0) in vec3 aPos;\n"
+		"void main()\n"
+		"{\n"
+			"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
 		"};";
 
 	unsigned int vertexShader;
@@ -121,13 +139,63 @@ void MyOpenGL()
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
-	int  success;
-	char infoLog[512];
 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 
 	if(!success)
 	{
 		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		SDL_LogError(0, "ERROR::SHADER::VERTEX::COMPILATION_FAILED %s\n", infoLog);
+		SDL_LogError(0, "%s", infoLog);
+		return false;
 	}
+
+	const char * fragmentShaderSource =
+		"#version 330 core\n"
+		"out vec4 FragColor;\n"
+		"void main()\n"
+		"{\n"
+		"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+		"}";
+
+	unsigned int fragmentShader;
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+	if(!success)
+	{
+		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+		SDL_LogError(0, "%s", infoLog);
+		return false;
+	}
+
+	shaderProgram = glCreateProgram();	
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	if(!success) {
+    	glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		SDL_LogError(0, "%s", infoLog);
+		return false;
+	}
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader); 
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+	
+	return true;
+}
+
+void MyOpenGLRender()
+{
+	glUseProgram(shaderProgram);
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
