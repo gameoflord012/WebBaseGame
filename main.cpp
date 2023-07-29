@@ -5,6 +5,7 @@ and may not be redistributed without written permission.*/
 
 #include <stdio.h>
 #include <string>
+#include <iostream>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -52,10 +53,9 @@ int main( int argc, char* args[] )
 
 	if(!MyOpenGL())
 	{
-		SDL_Log("OpenGL failed!");
+		SDL_Log("MyOpenGL failed!");
 		return -1;
 	}
-	
 
 	bool quit = false;
 	Uint32 startTime = SDL_GetTicks();
@@ -115,21 +115,18 @@ GLuint VAO;
 
 bool MyOpenGL()
 {
-	int  success;
-	char infoLog[512];
-
-	glGenVertexArrays(1, &VAO);
+	DONUT_glCall(glGenVertexArrays(1, &VAO));
 
 	unsigned int VBO;
-	glGenBuffers(1, &VBO);
+	DONUT_glCall(glGenBuffers(1, &VBO));
 
-	glBindVertexArray(VAO);
+	DONUT_glCall(glBindVertexArray(VAO));
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	DONUT_glCall(glBindBuffer(GL_ARRAY_BUFFER, VBO));
+	DONUT_glCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW));
+
 
 	DONUT_ShaderSource vertexShaderSource(GL_VERTEX_SHADER);
-
 	vertexShaderSource.compileShader(R"(
 		#version 330 core
 		layout (location = 0) in vec3 aPos;
@@ -148,30 +145,33 @@ bool MyOpenGL()
 		};
 	)");
 
-	shaderProgram = glCreateProgram();	
+	DONUT_glCallAssign(shaderProgram, glCreateProgram());	
 
-	glAttachShader(shaderProgram, vertexShaderSource.getShader());
-	glAttachShader(shaderProgram, fragmentShaderSource.getShader());
-	glLinkProgram(shaderProgram);
+	DONUT_glCall(glAttachShader(shaderProgram, vertexShaderSource.getShader()));
+	DONUT_glCall(glAttachShader(shaderProgram, fragmentShaderSource.getShader()));
+	DONUT_glCall(glLinkProgram(shaderProgram));
 
+	GLint  success;
+	char infoLog[512];
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
 
-	if(!success) {
+	if(success != GL_TRUE) {
     	glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		SDL_LogError(0, "Shader program failed: %s", infoLog);
+		DONUT_LogError("Shader program failed: %s", infoLog);
 		return false;
 	}
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	DONUT_glCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0));
+	DONUT_glCall(glEnableVertexAttribArray(0));
 
-	glBindVertexArray(0);
-	
+	DONUT_glCall(glBindVertexArray(0));
+
 	return true;
 }
 
 void MyOpenGLRender()
 {
+	std::cout <<"hello"<< std::endl;
 	glUseProgram(shaderProgram);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);

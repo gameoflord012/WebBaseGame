@@ -9,7 +9,6 @@ DONUT_ShaderSource::DONUT_ShaderSource(GLuint shaderType)
 DONUT_ShaderSource::~DONUT_ShaderSource()
 {
     glDeleteShader(getShader());
-    delete mShaderSourcestring;
     DONUT_glCheckError(GL_INVALID_OPERATION);
 }
 
