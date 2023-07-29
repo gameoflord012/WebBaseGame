@@ -1,7 +1,5 @@
-#include "donut.h"
+#include "Donut.h"
 #include <SDL2/SDL_image.h>
-
-#define DONUT_USE_GL
 
 SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;
@@ -16,32 +14,32 @@ bool Donut::init(int screenWidth, int screenHeight)
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
-		SDL_Log( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
+		DONUT_Log( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
 	}
 	else
 	{
-#ifndef DONUT_USE_GL
 		//Set texture filtering to linear
 		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) )
 		{
-			printf( "Warning: Linear texture filtering not enabled!" );
+			DONUT_LogWarning( "Linear texture filtering not enabled!" );
 		}
-#endif
 
-		;
+		printf( "Linear texture filtering not enabled!" );
+		
 		if(
-			SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 1 ) < 0 || 
-			SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 ))
+			SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 ) < 0 ||
+			SDL_GL_SetAttribute( SDL_GL_CONTEXT_MINOR_VERSION, 3 ) < 0 ||
+			SDL_GL_SetAttribute( SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE ) < 0 )
 		{
-			SDL_LogError(0, "Failed to set attribute %s", SDL_GetError());
+			DONUT_LogError( "Failed to set attribute %s", SDL_GetError());
 		}
 
 		//Create window
 		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 		if( gWindow == NULL )
 		{
-			SDL_LogError( 0, "Window could not be created! SDL Error: %s\n", SDL_GetError() );
+			DONUT_LogError( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
 			success = false;
 		}
 		else
@@ -50,25 +48,24 @@ bool Donut::init(int screenWidth, int screenHeight)
 
 			if(gContext == NULL)
 			{
-				SDL_LogError( 0, "OpenGL context could not be created! SDL Error: %s\n", SDL_GetError() );
+				DONUT_LogError( "OpenGL context could not be created! SDL Error: %s\n", SDL_GetError() );
 			}
 
 			GLenum err = glewInit();
 			if (GLEW_OK != err || !GLEW_VERSION_3_3)
 			{
 				/* Problem: glewInit failed, something is seriously wrong. */
-				SDL_LogError(0, "Error: %s\n", glewGetErrorString(err));
+				DONUT_LogError("Glew failed to init: %s\n", glewGetErrorString(err));
 			}
 
     
-#ifndef DONUT_USE_GL
 			//Create renderer for window
 			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
 
 			//try software render if hardware fails
 			if( gRenderer == NULL )
 			{
-				SDL_Log( "Accelerated renderer could not be created! SDL Error: %s\nSwitching to software renderer", SDL_GetError() );
+				DONUT_LogError( "Accelerated renderer could not be created! SDL Error: %s\nSwitching to software renderer", SDL_GetError() );
 				gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_SOFTWARE);
 			}
 
@@ -86,11 +83,10 @@ bool Donut::init(int screenWidth, int screenHeight)
 				int imgFlags = IMG_INIT_PNG;
 				if( !( IMG_Init( imgFlags ) & imgFlags ) )
 				{
-					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+					DONUT_LogError( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
 				}
 			}
-#endif
 		}
 	}
 

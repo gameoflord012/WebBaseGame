@@ -17,15 +17,15 @@ set(DONUT_ASSETS_DIR "${CMAKE_SOURCE_DIR}/assets")
 set(DONUT_SOURCE_DIR "${CMAKE_SOURCE_DIR}/Donut")
 set(DONUT_LIBS_DIR "${PROJECT_SOURCE_DIR}/libs")
 
-configure_file(${DONUT_SOURCE_DIR}/donut.h.in ${DONUT_SOURCE_DIR}/donut.h)
+configure_file(${DONUT_SOURCE_DIR}/Donut.h.in ${DONUT_SOURCE_DIR}/Donut.h)
 pkg_check_modules(GLEW REQUIRED glew)
 
 # These tests can use the Catch2-provided main
 add_executable(tests test.cpp)
 add_executable(Donut
     main.cpp
-    ${DONUT_SOURCE_DIR}/utils.cpp
-    ${DONUT_SOURCE_DIR}/donut.cpp)
+    ${DONUT_SOURCE_DIR}/Utils.cpp
+    ${DONUT_SOURCE_DIR}/Donut.cpp)
 
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 

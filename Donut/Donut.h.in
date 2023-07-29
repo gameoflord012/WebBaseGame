@@ -5,6 +5,11 @@
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 
+#define DONUT_Log(...) SDL_Log(__VA_ARGS__)
+#define DONUT_LogWarning(...) SDL_LogWarn( SDL_LOG_CATEGORY_CUSTOM, __VA_ARGS__)
+#define DONUT_LogError(...) SDL_LogError(SDL_LOG_CATEGORY_CUSTOM, __VA_ARGS__)
+#define DONUT_Critical(...) SDL_LogCritical(SDL_LOG_CATEGORY_CUSTOM, __VA_ARGS__)
+
 struct Sprite
 {
     SDL_Texture * texture;

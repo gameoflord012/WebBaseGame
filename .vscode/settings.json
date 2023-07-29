@@ -80,7 +80,8 @@
         "variant": "cpp"
     },
     "files.exclude": {
-        "build": true
+        "build": true,
+        ".gitmodules":true
     }
 }
   

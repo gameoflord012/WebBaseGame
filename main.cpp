@@ -12,8 +12,8 @@ and may not be redistributed without written permission.*/
 
 #define DONUT_USE_GL
 
-#include "Donut/donut.h"
-#include "Donut/utils.h"
+#include "Donut/Donut.h"
+#include "Donut/Utils.h"
 
 b2Vec2 gravity(0.0f, -10.0f);
 b2World world(gravity);
