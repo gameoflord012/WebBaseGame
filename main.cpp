@@ -25,6 +25,7 @@ b2Body * groundBody;
 
 bool MyOpenGL();
 void MyOpenGLRender();
+void inputHandler(){}
 
 
 void initEntitites()
@@ -47,7 +48,7 @@ int main( int argc, char* args[] )
 	//Start up SDL and create window
 	if( !Donut::init(1000, 500) )
 	{
-		SDL_Log( "Failed to initialize!\n" );
+		DONUT_LogError( "Failed to initialize!\n" );
 		return -1;
 	}
 
@@ -81,17 +82,7 @@ int main( int argc, char* args[] )
 			}
 			else if( e.type == SDL_KEYDOWN )
 			{
-				switch (e.key.keysym.sym)
-				{
-				case SDLK_LEFT:
-					donut.rect.x -= 100 * deltaTimeInSeconds;
-					break;
-				case SDLK_RIGHT:
-					donut.rect.x += 100 * deltaTimeInSeconds;
-					break;
-				default:
-					break;
-				}
+				inputHandler();
 			}
 		}
 
@@ -163,7 +154,6 @@ bool MyOpenGL()
 
 	DONUT_glCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0));
 	DONUT_glCall(glEnableVertexAttribArray(0));
-
 	DONUT_glCall(glBindVertexArray(0));
 
 	return true;
@@ -171,7 +161,6 @@ bool MyOpenGL()
 
 void MyOpenGLRender()
 {
-	std::cout <<"hello"<< std::endl;
 	glUseProgram(shaderProgram);
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
