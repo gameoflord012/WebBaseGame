@@ -1,10 +1,10 @@
 #include "Donut.h"
+
 #include <SDL2/SDL_image.h>
 
 SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;
 SDL_GLContext Donut::gContext = NULL;
-
 
 bool Donut::init(int screenWidth, int screenHeight)
 {
@@ -24,8 +24,6 @@ bool Donut::init(int screenWidth, int screenHeight)
 		{
 			DONUT_LogWarning( "Linear texture filtering not enabled!" );
 		}
-
-		printf( "Linear texture filtering not enabled!" );
 		
 		if(
 			SDL_GL_SetAttribute( SDL_GL_CONTEXT_MAJOR_VERSION, 3 ) < 0 ||

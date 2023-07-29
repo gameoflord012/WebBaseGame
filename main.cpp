@@ -11,9 +11,11 @@ and may not be redistributed without written permission.*/
 #include <box2d/box2d.h>
 
 #define DONUT_USE_GL
+#define DONUT_DEBUG
 
 #include "Donut/Donut.h"
 #include "Donut/Utils.h"
+#include "Donut/DONUT_ShadderSource.h"
 
 b2Vec2 gravity(0.0f, -10.0f);
 b2World world(gravity);
@@ -124,66 +126,41 @@ bool MyOpenGL()
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);	
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	const char *  vertexShaderSource = 
-		"#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
-		"void main()\n"
-		"{\n"
-			"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-		"};";
+	DONUT_ShaderSource vertexShaderSource(GL_VERTEX_SHADER);
 
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
+	vertexShaderSource.compileShader(R"(
+		#version 330 core
+		layout (location = 0) in vec3 aPos;
+		void main()
+		{
+			gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+		};)");
 
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-	if(!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		SDL_LogError(0, "%s", infoLog);
-		return false;
-	}
-
-	const char * fragmentShaderSource =
-		"#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"void main()\n"
-		"{\n"
-		"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-		"}";
-
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
-	if(!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		SDL_LogError(0, "%s", infoLog);
-		return false;
-	}
+	DONUT_ShaderSource fragmentShaderSource(GL_FRAGMENT_SHADER);
+	fragmentShaderSource.compileShader(R"(
+		#version 330 core
+		out vec4 FragColor;
+		void main()
+		{
+			FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+		};
+	)");
 
 	shaderProgram = glCreateProgram();	
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
+
+	glAttachShader(shaderProgram, vertexShaderSource.getShader());
+	glAttachShader(shaderProgram, fragmentShaderSource.getShader());
 	glLinkProgram(shaderProgram);
 
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+
 	if(!success) {
     	glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		SDL_LogError(0, "%s", infoLog);
+		SDL_LogError(0, "Shader program failed: %s", infoLog);
 		return false;
 	}
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader); 
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);

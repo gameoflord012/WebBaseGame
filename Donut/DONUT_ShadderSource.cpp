@@ -2,22 +2,38 @@
 
 DONUT_ShaderSource::DONUT_ShaderSource(GLuint shaderType)
 {
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    shader = glCreateShader(shaderType);
+    DONUT_glCheckError(GL_INVALID_OPERATION);
+}
+
+DONUT_ShaderSource::~DONUT_ShaderSource()
+{
+    glDeleteShader(getShader());
+    delete mShaderSourcestring;
+    DONUT_glCheckError(GL_INVALID_OPERATION);
 }
 
 bool DONUT_ShaderSource::compileShader(const char * shaderSource)
 {
-    glShaderSource(vertexShader, 1, &shaderSource, NULL);
+    glShaderSource(shader, 1, &shaderSource, NULL);
+    glCompileShader(shader);
 
-    bool success;
+    GLint success;
     char infoLog[512];
 
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if(!success)
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+    if(success != GL_TRUE)
     {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        glGetShaderInfoLog(shader, 512, NULL, infoLog);
         DONUT_LogWarning("Shader failed to compile: %s", infoLog);
     }
 
+    DONUT_glCheckError(GL_INVALID_OPERATION);
+
     return success;
+}
+
+GLuint DONUT_ShaderSource::getShader()
+{
+    return shader;
 }

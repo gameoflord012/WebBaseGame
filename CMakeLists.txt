@@ -22,10 +22,12 @@ pkg_check_modules(GLEW REQUIRED glew)
 
 # These tests can use the Catch2-provided main
 add_executable(tests test.cpp)
+
 add_executable(Donut
     main.cpp
     ${DONUT_SOURCE_DIR}/Utils.cpp
-    ${DONUT_SOURCE_DIR}/Donut.cpp)
+    ${DONUT_SOURCE_DIR}/Donut.cpp
+    ${DONUT_SOURCE_DIR}/DONUT_ShadderSource.cpp)
 
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 

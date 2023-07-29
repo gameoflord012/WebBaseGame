@@ -8,24 +8,13 @@ class DONUT_ShaderSource
 public:
     DONUT_ShaderSource(GLuint shaderType);
     bool compileShader(const char * shaderSource);
+    GLuint getShader();
+
+    ~DONUT_ShaderSource();
 
 private:
-    GLuint vertexShader;
+    GLuint shader;
     char * mShaderSourcestring;
 };
-
-// unsigned int vertexShader;
-// 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-// 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-// 	glCompileShader(vertexShader);
-
-// 	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-// 	if(!success)
-// 	{
-// 		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-// 		SDL_LogError(0, "%s", infoLog);
-// 		return false;
-// 	}
 
 #endif

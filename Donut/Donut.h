@@ -9,6 +9,14 @@
 #define DONUT_LogWarning(...) SDL_LogWarn( SDL_LOG_CATEGORY_CUSTOM, __VA_ARGS__)
 #define DONUT_LogError(...) SDL_LogError(SDL_LOG_CATEGORY_CUSTOM, __VA_ARGS__)
 #define DONUT_Critical(...) SDL_LogCritical(SDL_LOG_CATEGORY_CUSTOM, __VA_ARGS__)
+#define DONUT_DebugLog(...) SDL_LogDebug(SDL_LOG_CATEGORY_CUSTOM, __VA_ARGS__)
+#define DONUT_glCheckError(errorEnum) {\
+    GLenum error;\
+    while((error = glGetError()) != GL_NO_ERROR)\
+    {\
+        if(error == errorEnum) DONUT_LogError("Donut check gl Error failed: %s", #errorEnum);\
+    }\
+}
 
 struct Sprite
 {
