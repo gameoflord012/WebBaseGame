@@ -82,7 +82,6 @@
     },
     "files.exclude": {
         "build": true,
-        ".gitmodules":true
     }
 }
   
