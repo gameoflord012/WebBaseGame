@@ -16,7 +16,7 @@
         {
             "label": "Donut run",
             "type": "shell",
-            "command": "./Donut",
+            "command": "./mygame",
             "options": {
                 "cwd" : "${workspaceFolder}/build"
             },

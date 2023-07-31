@@ -1,5 +1,7 @@
 #include "DONUT_ShadderSource.h"
 
+#include <string>
+
 DONUT_ShaderSource::DONUT_ShaderSource(GLuint shaderType)
 {
     shader = glCreateShader(shaderType);

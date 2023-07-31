@@ -2,6 +2,7 @@
 #define DONUT_SHADERSOURCE_H
 
 #include "Donut.h"
+#include <string>
 
 class DONUT_ShaderSource
 {

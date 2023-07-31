@@ -8,7 +8,7 @@
             "name": "C++ Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Donut", // Replace with the path to your compiled executable
+            "program": "${workspaceFolder}/build/mygame", // Replace with the path to your compiled executable
             "args": [], // Command-line arguments for your program (if any)
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

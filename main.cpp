@@ -8,7 +8,6 @@ and may not be redistributed without written permission.*/
 #include <iostream>
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <box2d/box2d.h>
 
 #define DONUT_USE_GL
@@ -30,7 +29,7 @@ void inputHandler(){}
 
 void initEntitites()
 {
-	donut = {Donut::loadTexture(DONUT_ASSETS_DIR(donut.png)), {0, 0, 700, 700}};
+	donut = {Donut::loadTexture(DONUT_GetAssetsPath("donut.png")), {0, 0, 700, 700}};
 
 	b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f, -10.0f);
@@ -109,38 +108,24 @@ bool MyOpenGL()
 	DONUT_glCall(glGenVertexArrays(1, &VAO));
 
 	unsigned int VBO;
-	DONUT_glCall(glGenBuffers(1, &VBO));
+	glGenBuffers(1, &VBO);
 
-	DONUT_glCall(glBindVertexArray(VAO));
+	glBindVertexArray(VAO);
 
-	DONUT_glCall(glBindBuffer(GL_ARRAY_BUFFER, VBO));
-	DONUT_glCall(glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW));
-
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	DONUT_ShaderSource vertexShaderSource(GL_VERTEX_SHADER);
-	vertexShaderSource.compileShader(R"(
-		#version 330 core
-		layout (location = 0) in vec3 aPos;
-		void main()
-		{
-			gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-		};)");
+	vertexShaderSource.compileShader(DONUT_readfile(DONUT_GetShadersPath("vertexShader.txt")).c_str());
 
 	DONUT_ShaderSource fragmentShaderSource(GL_FRAGMENT_SHADER);
-	fragmentShaderSource.compileShader(R"(
-		#version 330 core
-		out vec4 FragColor;
-		void main()
-		{
-			FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
-		};
-	)");
+	fragmentShaderSource.compileShader(DONUT_readfile(DONUT_GetShadersPath("fragmentShader.txt")).c_str());
 
 	DONUT_glCallAssign(shaderProgram, glCreateProgram());	
 
-	DONUT_glCall(glAttachShader(shaderProgram, vertexShaderSource.getShader()));
-	DONUT_glCall(glAttachShader(shaderProgram, fragmentShaderSource.getShader()));
-	DONUT_glCall(glLinkProgram(shaderProgram));
+	glAttachShader(shaderProgram, vertexShaderSource.getShader());
+	glAttachShader(shaderProgram, fragmentShaderSource.getShader());
+	glLinkProgram(shaderProgram);
 
 	GLint  success;
 	char infoLog[512];
@@ -152,9 +137,10 @@ bool MyOpenGL()
 		return false;
 	}
 
-	DONUT_glCall(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0));
-	DONUT_glCall(glEnableVertexAttribArray(0));
-	DONUT_glCall(glBindVertexArray(0));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	DONUT_glCheckErrorAll();
 
 	return true;
 }

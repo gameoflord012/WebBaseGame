@@ -53,7 +53,7 @@ bool Donut::init(int screenWidth, int screenHeight)
 			if (GLEW_OK != err || !GLEW_VERSION_3_3)
 			{
 				/* Problem: glewInit failed, something is seriously wrong. */
-				DONUT_LogError("Glew failed to init: %s\n", glewGetErrorString(err));
+				DONUT_LogError("Glew failed to init: %s\n", (char*)glewGetErrorString(err));
 			}
 
     
