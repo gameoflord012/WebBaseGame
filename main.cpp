@@ -149,5 +149,7 @@ void MyOpenGLRender()
 {
 	glUseProgram(shaderProgram);
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	glPointSize(10.0);
+	glDrawArrays(GL_POINTS, 0, 3);
 }

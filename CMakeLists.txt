@@ -28,7 +28,10 @@ add_library(Donut_shared SHARED
     ${DONUT_SOURCE_DIR}/Utils.cpp
     ${DONUT_SOURCE_DIR}/Donut.cpp
     ${DONUT_SOURCE_DIR}/DONUT_ShadderSource.cpp
+    #${DONUT_SOURCE_DIR}/DONUT_GL_DrawLineProgram.cpp
 )
+
+target_include_directories(Donut_shared PRIVATE ${CMAKE_SOURCE_DIR})
 
 target_link_libraries(Donut_shared PUBLIC 
     SDL2::SDL2

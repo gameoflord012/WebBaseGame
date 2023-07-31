@@ -5,10 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C++ Launch",
+            "name": "C++ mygame",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/mygame", // Replace with the path to your compiled executable
+            "args": [], // Command-line arguments for your program (if any)
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "gdb" // Path to the GDB executable (if not in the system PATH)
+        },
+        {
+            "name": "C++ test",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tests", // Replace with the path to your compiled executable
             "args": [], // Command-line arguments for your program (if any)
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

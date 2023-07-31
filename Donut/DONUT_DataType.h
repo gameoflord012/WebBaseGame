@@ -1,0 +1,3 @@
+#ifndef DONUT_DONUTDATATYPE_H
+#define DONUT_DONUTDATATYPE_H
+#endif
