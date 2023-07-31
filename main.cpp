@@ -15,7 +15,8 @@ and may not be redistributed without written permission.*/
 
 #include "Donut/Donut.h"
 #include "Donut/Utils.h"
-#include "Donut/DONUT_ShadderSource.h"
+#include "Donut/Donut_ShadderSource.h"
+#include "Donut/Donut_GL_DrawLineProgram.h"
 
 b2Vec2 gravity(0.0f, -10.0f);
 b2World world(gravity);
@@ -29,7 +30,7 @@ void inputHandler(){}
 
 void initEntitites()
 {
-	donut = {Donut::loadTexture(DONUT_GetAssetsPath("donut.png")), {0, 0, 700, 700}};
+	donut = {Donut::loadTexture(Donut_GetAssetsPath("donut.png")), {0, 0, 700, 700}};
 
 	b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(0.0f, -10.0f);
@@ -47,7 +48,7 @@ int main( int argc, char* args[] )
 	//Start up SDL and create window
 	if( !Donut::init(1000, 500) )
 	{
-		DONUT_LogError( "Failed to initialize!\n" );
+		Donut_LogError( "Failed to initialize!\n" );
 		return -1;
 	}
 
@@ -100,12 +101,12 @@ float vertices[] = {
      0.0f,  0.5f, 0.0f
 };  
 
-unsigned int shaderProgram;
+Donut_GL_DrawLineProgram * shaderProgram;
 GLuint VAO;
 
 bool MyOpenGL()
 {
-	DONUT_glCall(glGenVertexArrays(1, &VAO));
+	Donut_glCall(glGenVertexArrays(1, &VAO));
 
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
@@ -115,40 +116,21 @@ bool MyOpenGL()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	DONUT_ShaderSource vertexShaderSource(GL_VERTEX_SHADER);
-	vertexShaderSource.compileShader(DONUT_readfile(DONUT_GetShadersPath("vertexShader.txt")).c_str());
 
-	DONUT_ShaderSource fragmentShaderSource(GL_FRAGMENT_SHADER);
-	fragmentShaderSource.compileShader(DONUT_readfile(DONUT_GetShadersPath("fragmentShader.txt")).c_str());
-
-	DONUT_glCallAssign(shaderProgram, glCreateProgram());	
-
-	glAttachShader(shaderProgram, vertexShaderSource.getShader());
-	glAttachShader(shaderProgram, fragmentShaderSource.getShader());
-	glLinkProgram(shaderProgram);
-
-	GLint  success;
-	char infoLog[512];
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-
-	if(success != GL_TRUE) {
-    	glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		DONUT_LogError("Shader program failed: %s", infoLog);
-		return false;
-	}
+	shaderProgram = new Donut_GL_DrawLineProgram();
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	DONUT_glCheckErrorAll();
+	Donut_glCheckErrorAll();
 
 	return true;
 }
 
 void MyOpenGLRender()
 {
-	glUseProgram(shaderProgram);
 	glBindVertexArray(VAO);
+	shaderProgram->useProgram();
 
 	glPointSize(10.0);
 	glDrawArrays(GL_POINTS, 0, 3);

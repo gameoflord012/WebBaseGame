@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include "Donut/Donut.h"
-#include "Donut/DONUT_GL_DrawLineProgram.h"
+#include "Donut/Donut_GL_DrawLineProgram.h"
 #include "Donut/Utils.h"
 #include <string>
 
@@ -14,15 +14,15 @@ TEST_CASE("Subtraction Test") {
     REQUIRE(result == 2);
 }
 
-TEST_CASE("DONUT READ FILE")
+TEST_CASE("Donut READ FILE")
 {
-    std::string file = DONUT_readfile(DONUT_GetShadersPath("vertexShader.txt"));
+    std::string file = Donut_readfile(Donut_GetShadersPath("vertexShader.txt"));
     REQUIRE(file.length() > 0);
 }
 
-TEST_CASE("DONUT SHADER DRAWLINE PROGRAM")
-{
+TEST_CASE("Donut SHADER DRAWLINE PROGRAM")
+{ 
     Donut::init(5, 5);
-    DONUT_GL_DrawLineProgram program;
+    Donut_GL_DrawLineProgram program;
     Donut::clean();
 }

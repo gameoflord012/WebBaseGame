@@ -4,14 +4,14 @@
 #include "Donut.h"
 #include <string>
 
-class DONUT_ShaderSource
+class Donut_ShaderSource
 {
 public:
-    DONUT_ShaderSource(GLuint shaderType);
+    Donut_ShaderSource(GLuint shaderType);
     bool compileShader(const char * shaderSource);
     GLuint getShader();
 
-    ~DONUT_ShaderSource();
+    ~Donut_ShaderSource();
 
 private:
     GLuint shader;

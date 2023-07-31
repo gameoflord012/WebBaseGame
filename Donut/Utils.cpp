@@ -4,9 +4,9 @@
 #include<fstream>
 #include<sstream>
 
-#include "Donut/DONUT_Log.h"
+#include "Donut/Donut_Log.h"
 
-std::string DONUT_readfile(std::string filePath)
+std::string Donut_readfile(std::string filePath)
 {
     std::ifstream ifs(filePath);
 
@@ -16,7 +16,7 @@ std::string DONUT_readfile(std::string filePath)
 
     if(buffer.str().empty())
     {
-        DONUT_LogWarning("DONUT_readfile read an empty file %s", filePath.c_str());
+        Donut_LogWarning("Donut_readfile read an empty file %s", filePath.c_str());
     }
 
     return buffer.str();

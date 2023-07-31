@@ -4,7 +4,7 @@
 #include<box2d/box2d.h>
 #include<vector>
 
-struct DONUT_VertexData
+struct Donut_VertexData
 {
     const b2Vec3 defaultColor = b2Vec3(0, 0, 1);
 
@@ -23,7 +23,7 @@ struct DONUT_VertexData
     } 
 };
 
-class DONUT_b2_DebugDraw : private b2Draw
+class Donut_b2_DebugDraw : private b2Draw
 {
     /// Draw a closed polygon provided in CCW order.
 	void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override;

@@ -4,6 +4,6 @@
 #include<SDL2/SDL.h>
 #include<string>
 
-std::string DONUT_readfile(std::string filePath);
+std::string Donut_readfile(std::string filePath);
 
 #endif

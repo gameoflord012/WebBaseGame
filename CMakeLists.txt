@@ -27,8 +27,8 @@ pkg_check_modules(GLEW REQUIRED glew)
 add_library(Donut_shared SHARED
     ${DONUT_SOURCE_DIR}/Utils.cpp
     ${DONUT_SOURCE_DIR}/Donut.cpp
-    ${DONUT_SOURCE_DIR}/DONUT_ShadderSource.cpp
-    #${DONUT_SOURCE_DIR}/DONUT_GL_DrawLineProgram.cpp
+    ${DONUT_SOURCE_DIR}/Donut_ShadderSource.cpp
+    #${Donut_SOURCE_DIR}/Donut_GL_DrawLineProgram.cpp
 )
 
 target_include_directories(Donut_shared PRIVATE ${CMAKE_SOURCE_DIR})

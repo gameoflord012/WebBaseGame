@@ -5,10 +5,15 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include "DONUT_GL.h"
-#include "DONUT_Log.h"
+#include "Donut_GL.h"
+#include "Donut_Log.h"
 
-#define DONUT_Assert(x) SDL_assert(x)
+#define DONUT_ASSETS_DIR "@DONUT_ASSETS_DIR@/"
+#define DONUT_SHADERS_DIR "@DONUT_SHADERS_DIR@/"
+
+#define Donut_Assert(x) SDL_assert(x)
+#define Donut_GetAssetsPath(path) DONUT_ASSETS_DIR path
+#define Donut_GetShadersPath(path) DONUT_SHADERS_DIR path
 
 struct Sprite
 {
@@ -32,10 +37,5 @@ private:
     static int gScreenHeight;
     static SDL_GLContext gContext;
 };
-
-#define DONUT_ASSETS_DIR "@DONUT_ASSETS_DIR@/"
-#define DONUT_SHADERS_DIR "@DONUT_SHADERS_DIR@/"
-#define DONUT_GetAssetsPath(path) DONUT_ASSETS_DIR path
-#define DONUT_GetShadersPath(path) DONUT_SHADERS_DIR path
 
 #endif // DONUT_H
