@@ -20,11 +20,12 @@ struct Donut_VertexData
         colors.push_back(color.x);
         colors.push_back(color.y);
         colors.push_back(color.z);
-    } 
+    }
 };
 
 class Donut_b2_DebugDraw : private b2Draw
 {
+public:
     /// Draw a closed polygon provided in CCW order.
 	void DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color) override;
 
@@ -46,5 +47,9 @@ class Donut_b2_DebugDraw : private b2Draw
 
 	/// Draw a point.
 	void DrawPoint(const b2Vec2& p, float size, const b2Color& color) override;
+
+private:
+	Donut_VertexData mLines;
+	Donut_VertexData mTriangles;
 };
 #endif
