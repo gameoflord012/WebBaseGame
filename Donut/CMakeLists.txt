@@ -21,7 +21,7 @@ add_library(DonutShared SHARED
     ${DONUT_SOURCE_DIR}/Utils.cpp
     ${DONUT_SOURCE_DIR}/Donut.cpp
     ${DONUT_SOURCE_DIR}/Donut_ShadderSource.cpp
-    #${Donut_SOURCE_DIR}/Donut_GL_DrawLineProgram.cpp
+    ${Donut_SOURCE_DIR}/Donut_GL_DrawLineProgram.cpp
 )
 
 target_include_directories(DonutShared PUBLIC ${PROJECT_SOURCE_DIR})
