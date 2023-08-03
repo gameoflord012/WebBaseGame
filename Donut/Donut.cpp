@@ -1,6 +1,8 @@
 #include "Donut.h"
 
+#ifdef DONUT_USE_SDL_IMAGE
 #include <SDL2/SDL_image.h>
+#endif
 
 SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;

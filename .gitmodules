@@ -1,14 +1,14 @@
 [submodule "Catch2"]
-	path = Catch2
+	path = libs/Catch2
 	url = https://github.com/catchorg/Catch2.git
 [submodule "SDL"]
-	path = SDL
+	path = libs/SDL
 	url = https://github.com/libsdl-org/SDL.git
 	branch = SDL2
 [submodule "SDL_image"]
-	path = SDL_image
+	path = libs/SDL_image
 	url = https://github.com/libsdl-org/SDL_image.git
-	branch = SDL2
+	branch = libs/SDL2
 [submodule "libs/Box2D"]
 	path = libs/Box2D
 	url = https://github.com/erincatto/box2d.git
