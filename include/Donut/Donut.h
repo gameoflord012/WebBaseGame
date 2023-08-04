@@ -5,11 +5,11 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include "Donut_GL.h"
-#include "Donut_Log.h"
+#include "Donut/Donut_GL.h"
+#include "Donut/Donut_Log.h"
 
-#define DONUT_ASSETS_DIR "/home/swordmaster/Desktop/QtGame/assets/"
-#define DONUT_SHADERS_DIR "/home/swordmaster/Desktop/QtGame/shaders/"
+#define DONUT_ASSETS_DIR "/home/swordmaster/Desktop/WebBaseGame/assets/"
+#define DONUT_SHADERS_DIR "/home/swordmaster/Desktop/WebBaseGame/shaders/"
 
 #define Donut_Assert(x) SDL_assert(x)
 #define Donut_GetAssetsPath(path) DONUT_ASSETS_DIR path

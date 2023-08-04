@@ -1,6 +1,9 @@
-#install build tools
-cd glew-2.2.0/
-sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev
+tar -xvf glew-20220402.tgz
+sudo apt-get install libglew-dev
+cd glew-2.2.0
+cd auto
+make
+cd ..
 make
 sudo make install
-make clean
+

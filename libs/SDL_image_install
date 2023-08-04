@@ -1,0 +1,4 @@
+cd SDL_image
+./configure
+cmake -S . -B build/ && cmake --build build/
+sudo cmake --install build/

@@ -1,10 +1,10 @@
-#include "Utils.h"
+#include "Donut/Utils.h"
 
 #include<string>
 #include<fstream>
 #include<sstream>
 
-#include "Donut_Log.h"
+#include "Donut/Donut_Log.h"
 
 std::string Donut_readfile(std::string filePath)
 {

@@ -1,0 +1,8 @@
+sudo apt-get install libxrandr-dev
+cd Box2D
+mkdir build
+cd build
+cmake -DBOX2D_BUILD_DOCS=OFF ..
+cmake --build .
+cmake --build . --target INSTALL
+

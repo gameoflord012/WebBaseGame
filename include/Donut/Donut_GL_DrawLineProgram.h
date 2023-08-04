@@ -1,9 +1,9 @@
 #ifndef DONUT_GL_DRAWLINEPROGRAM_H
 #define DONUT_GL_DRAWLINEPROGRAM_H
 
-#include "Donut_GL.h"
-#include "Utils.h"
-#include "Donut_ShadderSource.h"
+#include "Donut/Donut.h"
+#include "Donut/Utils.h"
+#include "Donut/Donut_ShadderSource.h"
 #include "Donut.h"
 
 class Donut_GL_DrawLineProgram

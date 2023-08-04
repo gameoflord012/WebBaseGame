@@ -7,8 +7,7 @@ and may not be redistributed without written permission.*/
 #include <string>
 #include <iostream>
 
-#include <SDL2/SDL.h>
-#include <box2d/box2d.h>
+#include "SDL2/SDL.h"
 
 #define DONUT_USE_GL
 #define DONUT_DEBUG
@@ -18,10 +17,7 @@ and may not be redistributed without written permission.*/
 #include "Donut/Donut_ShadderSource.h"
 #include "Donut/Donut_GL_DrawLineProgram.h"
 
-b2Vec2 gravity(0.0f, -10.0f);
-b2World world(gravity);
 Sprite donut;
-b2Body * groundBody;
 
 bool MyOpenGL();
 void MyOpenGLRender();
@@ -31,16 +27,6 @@ void inputHandler(){}
 void initEntitites()
 {
 	donut = {Donut::loadTexture(Donut_GetAssetsPath("donut.png")), {0, 0, 700, 700}};
-
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
-
-	groundBody = world.CreateBody(&groundBodyDef);
-
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(50.0f, 10.0f);
-	
-	groundBody->CreateFixture(&groundBox, 0.0f);
 }
 
 int main( int argc, char* args[] )

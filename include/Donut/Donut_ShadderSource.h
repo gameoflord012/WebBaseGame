@@ -1,7 +1,7 @@
 #ifndef DONUT_SHADERSOURCE_H
 #define DONUT_SHADERSOURCE_H
 
-#include "Donut.h"
+#include "Donut/Donut.h"
 #include <string>
 
 class Donut_ShaderSource

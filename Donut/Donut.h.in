@@ -5,8 +5,8 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-#include "Donut_GL.h"
-#include "Donut_Log.h"
+#include "Donut/Donut_GL.h"
+#include "Donut/Donut_Log.h"
 
 #define DONUT_ASSETS_DIR "@DONUT_ASSETS_DIR@/"
 #define DONUT_SHADERS_DIR "@DONUT_SHADERS_DIR@/"
