@@ -16,6 +16,7 @@ and may not be redistributed without written permission.*/
 #include "Donut/Utils.h"
 #include "Donut/Donut_ShadderSource.h"
 #include "Donut/Donut_GL_DrawLineProgram.h"
+#include "Donut/Donut_GL.h"
 
 Sprite donut;
 
