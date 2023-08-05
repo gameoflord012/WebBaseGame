@@ -59,5 +59,7 @@ Donut_GL_Texture Donut_LoadTexture(const char *path)
 
     Donut_glCheckErrorAll();
 
+    delete[] data;
+
     return texture;
 }

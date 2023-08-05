@@ -88,12 +88,12 @@ float vertices[] = {
      0.0f,  0.5f, 0.0f
 };  
 
-Donut_GL_DrawLineProgram * shaderProgram;
+std::shared_ptr<Donut_GL_DrawLineProgram> shaderProgram;
 GLuint VAO;
 
 bool MyOpenGL()
 {
-	Donut_glCall(glGenVertexArrays(1, &VAO));
+	glGenVertexArrays(1, &VAO);
 
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
@@ -104,7 +104,7 @@ bool MyOpenGL()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 
-	shaderProgram = new Donut_GL_DrawLineProgram();
+	shaderProgram = std::make_shared<Donut_GL_DrawLineProgram>();
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
