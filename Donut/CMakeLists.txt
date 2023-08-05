@@ -20,7 +20,7 @@ add_library(DonutShared SHARED
     ${DONUT_SOURCE_DIR}/Utils.cpp
     ${DONUT_SOURCE_DIR}/Donut.cpp
     ${DONUT_SOURCE_DIR}/Donut_ShadderSource.cpp
-    ${DONUT_SOURCE_DIR}/Donut_GL_DrawLineProgram.cpp
+    ${DONUT_SOURCE_DIR}/Donut_GL_Program.cpp
     ${DONUT_SOURCE_DIR}/Donut_GL.cpp
     ${DONUT_SOURCE_DIR}/stb_image.cpp
 )

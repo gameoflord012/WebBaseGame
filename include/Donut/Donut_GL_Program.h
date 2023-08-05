@@ -1,19 +1,19 @@
-#ifndef DONUT_GL_DRAWLINEPROGRAM_H
-#define DONUT_GL_DRAWLINEPROGRAM_H
+#ifndef Donut_GL_Program_H
+#define Donut_GL_Program_H
 
 #include "Donut/Donut.h"
 #include "Donut/Utils.h"
 #include "Donut/Donut_ShadderSource.h"
 #include "Donut.h"
 
-class Donut_GL_DrawLineProgram
+class Donut_GL_Program
 {
 private:
     GLuint mProgramId;
 public:
-    Donut_GL_DrawLineProgram(/* args */);
+    Donut_GL_Program(/* args */);
 	void useProgram();
-    ~Donut_GL_DrawLineProgram();
+    ~Donut_GL_Program();
 };
 
 #endif

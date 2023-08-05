@@ -1,11 +1,11 @@
-#include "Donut/Donut_GL_DrawLineProgram.h"
+#include "Donut/Donut_GL_Program.h"
 
-void Donut_GL_DrawLineProgram::useProgram()
+void Donut_GL_Program::useProgram()
 {
 	glUseProgram(mProgramId);
 }
 
-Donut_GL_DrawLineProgram::Donut_GL_DrawLineProgram(/* args */)
+Donut_GL_Program::Donut_GL_Program(/* args */)
 {
     mProgramId = glCreateProgram();
 
@@ -33,7 +33,7 @@ Donut_GL_DrawLineProgram::Donut_GL_DrawLineProgram(/* args */)
     Donut_glCheckErrorAll();
 }
 
-Donut_GL_DrawLineProgram::~Donut_GL_DrawLineProgram()
+Donut_GL_Program::~Donut_GL_Program()
 {
 	glDeleteProgram(mProgramId);
 }

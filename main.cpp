@@ -15,7 +15,7 @@ and may not be redistributed without written permission.*/
 #include "Donut/Donut.h"
 #include "Donut/Utils.h"
 #include "Donut/Donut_ShadderSource.h"
-#include "Donut/Donut_GL_DrawLineProgram.h"
+#include "Donut/Donut_GL_Program.h"
 #include "Donut/Donut_GL.h"
 
 Sprite donut;
@@ -88,7 +88,7 @@ float vertices[] = {
      0.0f,  0.5f, 0.0f
 };  
 
-std::shared_ptr<Donut_GL_DrawLineProgram> shaderProgram;
+std::shared_ptr<Donut_GL_Program> shaderProgram;
 GLuint VAO;
 
 bool MyOpenGL()
@@ -103,8 +103,7 @@ bool MyOpenGL()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-
-	shaderProgram = std::make_shared<Donut_GL_DrawLineProgram>();
+	shaderProgram = std::make_shared<Donut_GL_Program>();
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);

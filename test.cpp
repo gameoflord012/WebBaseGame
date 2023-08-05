@@ -1,6 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include "Donut/Donut.h"
-#include "Donut/Donut_GL_DrawLineProgram.h"
+#include "Donut/Donut_GL_Program.h"
 #include "Donut/Utils.h"
 #include <string>
 
@@ -23,6 +23,6 @@ TEST_CASE("Donut READ FILE")
 TEST_CASE("Donut SHADER DRAWLINE PROGRAM")
 { 
     Donut::init(5, 5);
-    Donut_GL_DrawLineProgram program;
+    Donut_GL_Program program;
     Donut::clean();
 }
