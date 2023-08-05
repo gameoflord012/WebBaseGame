@@ -4,14 +4,14 @@
 #include "Donut/Donut.h"
 #include "Donut/Utils.h"
 #include "Donut/Donut_ShadderSource.h"
-#include "Donut.h"
+#include "Donut/Donut.h"
 
 class Donut_GL_Program
 {
 private:
     GLuint mProgramId;
 public:
-    Donut_GL_Program(/* args */);
+    Donut_GL_Program(const char * vertexShader, const char * fragmentShader);
 	void useProgram();
     ~Donut_GL_Program();
 };

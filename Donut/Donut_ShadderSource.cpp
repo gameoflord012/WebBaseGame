@@ -1,5 +1,6 @@
 #include "Donut/Donut_ShadderSource.h"
 
+#include <assert.h>
 #include <string>
 
 Donut_ShaderSource::Donut_ShaderSource(GLuint shaderType)
@@ -26,7 +27,7 @@ bool Donut_ShaderSource::compileShader(const char * shaderSource)
     if(success != GL_TRUE)
     {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        Donut_LogWarning("Shader failed to compile: %s", infoLog);
+        assert(false);
     }
 
     Donut_glCheckError(GL_INVALID_OPERATION);

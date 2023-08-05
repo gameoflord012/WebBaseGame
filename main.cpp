@@ -103,7 +103,9 @@ bool MyOpenGL()
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	shaderProgram = std::make_shared<Donut_GL_Program>();
+	shaderProgram = std::make_shared<Donut_GL_Program>(
+		Donut_readfile(Donut_GetShadersPath("vertexShader.txt")).c_str(),
+		Donut_readfile(Donut_GetShadersPath("fragmentShader.txt")).c_str());
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);

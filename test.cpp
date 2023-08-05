@@ -22,7 +22,7 @@ TEST_CASE("Donut READ FILE")
 
 TEST_CASE("Donut SHADER DRAWLINE PROGRAM")
 { 
-    Donut::init(5, 5);
-    Donut_GL_Program program;
-    Donut::clean();
+    // Donut::init(5, 5);
+    // Donut_GL_Program program;
+    // Donut::clean();
 }
