@@ -23,6 +23,7 @@ add_library(DonutShared SHARED
     ${DONUT_SOURCE_DIR}/Donut_GL_Program.cpp
     ${DONUT_SOURCE_DIR}/Donut_GL.cpp
     ${DONUT_SOURCE_DIR}/stb_image.cpp
+    ${DONUT_SOURCE_DIR}/Donut_GL_TextureProgram.cpp
 )
 
 target_include_directories(DonutShared PUBLIC ${DONUT_INCLUDE_DIR})

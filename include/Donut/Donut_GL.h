@@ -13,15 +13,18 @@
     }\
 }
 
-struct Donut_GL_Texture
+class Donut_GL_Texture
 {
-    GLuint id;
+public:
     int height, width, nrChannels;
 
     ~Donut_GL_Texture()
     {
-        glDeleteTextures(1, &id);
+        glDeleteTextures(1, &mId);
     }
+
+private:
+    GLuint mId;
 };
 
 bool Donut_glCheckErrorAll();
