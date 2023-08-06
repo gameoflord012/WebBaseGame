@@ -1,5 +1,4 @@
 #include "Donut/Donut_GL_Program.h"
-#include "Donut/Donut_GL_Program.h"
 
 void Donut_GL_Program::useProgram()
 {
@@ -28,11 +27,10 @@ Donut_GL_Program::Donut_GL_Program(const char *vertexShader, const char *fragmen
 	char infoLog[512];
 	glGetProgramiv(mProgramId, GL_LINK_STATUS, &success);
 
-	if(success != GL_TRUE) {
+	Donut_assert(success == GL_TRUE, {
     	glGetProgramInfoLog(mProgramId, 512, NULL, infoLog);
 		Donut_LogError("Shader program failed: %s", infoLog);
-		Donut_Assert(false);
-	}
+	});
 
     Donut_glCheckErrorAll();
 }

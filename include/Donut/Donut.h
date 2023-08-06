@@ -11,7 +11,6 @@
 #define DONUT_ASSETS_DIR "/home/swordmaster/Desktop/WebBaseGame/assets/"
 #define DONUT_SHADERS_DIR "/home/swordmaster/Desktop/WebBaseGame/shaders/"
 
-#define Donut_Assert(x) SDL_assert(x)
 #define Donut_GetAssetsPath(path) DONUT_ASSETS_DIR path
 #define Donut_GetShadersPath(path) DONUT_SHADERS_DIR path
 

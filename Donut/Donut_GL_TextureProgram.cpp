@@ -8,7 +8,18 @@ Donut_GL_TextureProgram::Donut_GL_TextureProgram() : Donut_GL_Program(
 }
 void Donut_GL_TextureProgram::setTextureUniform(Donut_GL_Texture *texture)
 {
+    Donut_glCheckErrorAll();
+
     glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, texture->getId());
-    glUniform1i(glGetUniformLocation(getProgramId(), "theTexture"),0);
+
+    Donut_glCheckErrorAll();
+
+    glUniform1i(glGetUniformLocation(getProgramId(), "theTexture"), 0);
+
+    Donut_glCheckErrorAll();
+}
+void Donut_GL_TextureProgram::setVao(Donut_GL_TextureVAO *VAO)
+{
+    glBindVertexArray(VAO->getId());
 }

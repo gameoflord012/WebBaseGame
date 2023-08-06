@@ -3,6 +3,7 @@ project(WebBaseGame)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
 find_package(Catch2 3 REQUIRED CONFIG)

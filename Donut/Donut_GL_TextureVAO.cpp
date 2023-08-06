@@ -1,8 +1,6 @@
 #include "Donut/Donut_GL_TextureVAO.h"
 #include "Donut/Donut_GL_Texture.h"
 
-#include <vector>
-
 Donut_GL_TextureVAO::Donut_GL_TextureVAO(unsigned int size, Donut_GL_TextureVertexAttibute * attributes)
 {
     glGenVertexArrays(1, &mId);
@@ -11,6 +9,8 @@ Donut_GL_TextureVAO::Donut_GL_TextureVAO(unsigned int size, Donut_GL_TextureVert
     glGenBuffers(1, &VBO);
 
     glBindVertexArray(mId);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
     glBufferData(GL_ARRAY_BUFFER, sizeof(Donut_GL_TextureVertexAttibute[0]) * size, attributes, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -20,8 +20,14 @@ Donut_GL_TextureVAO::Donut_GL_TextureVAO(unsigned int size, Donut_GL_TextureVert
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
+
+    Donut_glCheckErrorAll();
 }
 
+GLuint Donut_GL_TextureVAO::getId()
+{
+    return mId;
+}
 Donut_GL_TextureVAO::~Donut_GL_TextureVAO()
 {
     glDeleteVertexArrays(1, &mId);

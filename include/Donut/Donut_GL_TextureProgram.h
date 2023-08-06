@@ -7,10 +7,11 @@
 #include "Donut/Donut_GL_Texture.h"
 #include "Donut/Utils.h"
 
-class Donut_GL_TextureProgram : private Donut_GL_Program
+class Donut_GL_TextureProgram : public Donut_GL_Program
 {
 public:
     Donut_GL_TextureProgram();
     void setTextureUniform(Donut_GL_Texture * texture);
+    void setVao(Donut_GL_TextureVAO * VAO);
 };
 #endif

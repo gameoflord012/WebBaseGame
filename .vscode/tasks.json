@@ -35,7 +35,7 @@
             },
             "dependsOn": "Build ninja",
             "group": {
-                "kind": "test",
+                "kind": "build",
                 "isDefault": true
             }
         }

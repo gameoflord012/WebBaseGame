@@ -3,16 +3,19 @@
 #include <assert.h>
 #include <string>
 
+#include "Donut/Donut_Log.h"
+
 Donut_ShaderSource::Donut_ShaderSource(GLuint shaderType)
 {
+    Donut_glCheckErrorAll();
     shader = glCreateShader(shaderType);
-    Donut_glCheckError(GL_INVALID_OPERATION);
+    Donut_glCheckErrorAll();
 }
 
 Donut_ShaderSource::~Donut_ShaderSource()
 {
     glDeleteShader(getShader());
-    Donut_glCheckError(GL_INVALID_OPERATION);
+    Donut_glCheckErrorAll();
 }
 
 bool Donut_ShaderSource::compileShader(const char * shaderSource)
@@ -24,13 +27,13 @@ bool Donut_ShaderSource::compileShader(const char * shaderSource)
     char infoLog[512];
 
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if(success != GL_TRUE)
-    {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        assert(false);
-    }
 
-    Donut_glCheckError(GL_INVALID_OPERATION);
+    Donut_assert(success != GL_TRUE, {
+        glGetShaderInfoLog(shader, 512, NULL, infoLog);
+        Donut_LogError("shader compile fail: %s", &infoLog);
+    });
+
+    Donut_glCheckErrorAll();
 
     return success;
 }
