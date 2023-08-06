@@ -1,5 +1,6 @@
 #include "Donut/Donut_GL_Texture.h"
 #include "Donut/Donut_GL.h"
+#include "Donut/Donut_GL_Texture.h"
 
 Donut_GL_Texture::Donut_GL_Texture(const unsigned char *data, int width, int height)
 {
@@ -17,6 +18,10 @@ Donut_GL_Texture::Donut_GL_Texture(const unsigned char *data, int width, int hei
     Donut_glCheckErrorAll();
 }
 
+GLuint Donut_GL_Texture::getId()
+{
+    return mId;
+}
 Donut_GL_Texture::~Donut_GL_Texture()
 {
     glDeleteTextures(1, &mId);

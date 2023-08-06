@@ -8,12 +8,14 @@
 
 class Donut_GL_Program
 {
-private:
-    GLuint mProgramId;
 public:
     Donut_GL_Program(const char * vertexShader, const char * fragmentShader);
 	void useProgram();
+	GLuint getProgramId();
     ~Donut_GL_Program();
+
+private:
+    GLuint mProgramId;
 };
 
 #endif

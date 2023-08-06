@@ -31,7 +31,7 @@ struct Donut_GL_TextureVertexAttibute
 class Donut_GL_TextureVAO
 {
 public:
-    Donut_GL_TextureVAO(Donut_GL_TextureVertexAttibute attribute);
+    Donut_GL_TextureVAO(unsigned int size, Donut_GL_TextureVertexAttibute * attributes);
     ~Donut_GL_TextureVAO();
 private:
     GLuint mId;

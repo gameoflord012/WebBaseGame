@@ -1,15 +1,17 @@
 #include "Donut/Donut_GL_TextureVAO.h"
 #include "Donut/Donut_GL_Texture.h"
 
-Donut_GL_TextureVAO::Donut_GL_TextureVAO(Donut_GL_TextureVertexAttibute attribute)
+#include <vector>
+
+Donut_GL_TextureVAO::Donut_GL_TextureVAO(unsigned int size, Donut_GL_TextureVertexAttibute * attributes)
 {
-    glGenVertexArrays(1, &mId); 
+    glGenVertexArrays(1, &mId);
 
     GLuint VBO;
     glGenBuffers(1, &VBO);
 
     glBindVertexArray(mId);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(attribute.buffer), attribute.buffer, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Donut_GL_TextureVertexAttibute[0]) * size, attributes, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);

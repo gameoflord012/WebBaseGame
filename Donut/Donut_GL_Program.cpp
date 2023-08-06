@@ -1,11 +1,16 @@
 #include "Donut/Donut_GL_Program.h"
+#include "Donut/Donut_GL_Program.h"
 
 void Donut_GL_Program::useProgram()
 {
 	glUseProgram(mProgramId);
 }
 
-Donut_GL_Program::Donut_GL_Program(const char * vertexShader, const char * fragmentShader)
+GLuint Donut_GL_Program::getProgramId()
+{
+    return mProgramId;
+}
+Donut_GL_Program::Donut_GL_Program(const char *vertexShader, const char *fragmentShader)
 {
     mProgramId = glCreateProgram();
 
