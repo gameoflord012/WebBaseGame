@@ -6,7 +6,7 @@
 class Donut_GL_Texture
 {
 public:
-    Donut_GL_Texture(const unsigned char * data, int height, int width);
+    Donut_GL_Texture(const unsigned char * data, int width, int height);
     ~Donut_GL_Texture();
 
 private:

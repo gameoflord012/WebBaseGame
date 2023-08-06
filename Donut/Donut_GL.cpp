@@ -37,29 +37,3 @@ bool Donut_glCheckErrorAll()
 
     return true;
 }
-
-Donut_GL_Texture Donut_LoadTexture(const char *path)
-{
-    Donut_GL_Texture texture;
-
-    glGenTextures(1, &texture.id);
-    glBindTexture(GL_TEXTURE_2D, texture.id);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    unsigned char *data = stbi_load(path, &texture.width, &texture.height, &texture.nrChannels, 0);
-
-    assert(data);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture.width, texture.height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    Donut_glCheckErrorAll();
-
-    delete[] data;
-
-    return texture;
-}

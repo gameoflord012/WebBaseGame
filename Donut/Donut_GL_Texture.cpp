@@ -1,6 +1,7 @@
 #include "Donut/Donut_GL_Texture.h"
 #include "Donut/Donut_GL.h"
-Donut_GL_Texture::Donut_GL_Texture(const unsigned char *data, int height, int width)
+
+Donut_GL_Texture::Donut_GL_Texture(const unsigned char *data, int width, int height)
 {
     glGenTextures(1, &mId);
     glBindTexture(GL_TEXTURE_2D, mId);
