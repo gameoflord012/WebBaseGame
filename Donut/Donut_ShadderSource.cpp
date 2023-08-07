@@ -28,7 +28,7 @@ bool Donut_ShaderSource::compileShader(const char * shaderSource)
 
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 
-    Donut_assert(success != GL_TRUE, {
+    Donut_assert(success == GL_TRUE, {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
         Donut_LogError("shader compile fail: %s", &infoLog);
     });
