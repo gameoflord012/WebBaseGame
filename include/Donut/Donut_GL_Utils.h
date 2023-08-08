@@ -3,6 +3,7 @@
 
 #include "Donut/Donut_GL_Texture.h"
 
-Donut_GL_Texture * Donut_LoadTexture(const char * path);
+
+Donut_GL_Texture * Donut_LoadTexture(const char *path);
 
 #endif

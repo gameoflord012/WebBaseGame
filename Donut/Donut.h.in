@@ -20,21 +20,26 @@ struct Sprite
     SDL_Rect rect;
 };
 
+typedef void (*RenderLoopFunc)(float delta);
+
 class Donut
 {
 public:
     static SDL_Window* gWindow;
     static SDL_Renderer* gRenderer;
 
-    static bool init(int screenWidth, int screenHeight);
+    static bool init(int screenWidth, int screenHeight,  RenderLoopFunc renderloop = NULL);
     static void rendererCopySprite( Sprite sprite );
     static void clean();
     static SDL_Texture* loadTexture( const char * path );
+    static bool updateRenderLoop();
 
 private:
+    static RenderLoopFunc gRenderLoop;
     static int gScreenWidth;
     static int gScreenHeight;
     static SDL_GLContext gContext;
+    static Uint32 gRenderLoopTimer;
 };
 
 #endif // DONUT_H

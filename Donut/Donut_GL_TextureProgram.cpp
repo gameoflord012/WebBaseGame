@@ -21,6 +21,3 @@ void Donut_GL_TextureProgram::setTextureUniform(Donut_GL_Texture *texture)
 
     Donut_glCheckErrorAll();
 }
-void Donut_GL_TextureProgram::setVao(Donut_GL_TextureVAO *VAO)
-{
-}

@@ -4,6 +4,7 @@
 Donut_GL_Texture * Donut_LoadTexture(const char *path)
 {
     int width, height, nrChannels;
+    
     unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
 
     Donut_assert(data, 
@@ -11,9 +12,9 @@ Donut_GL_Texture * Donut_LoadTexture(const char *path)
         Donut_LogError("No texture found in %s", &path);
     });
 
-    Donut_GL_Texture * texture = new Donut_GL_Texture(data, height, width);
+    Donut_GL_Texture * texture = new Donut_GL_Texture(data, width, height, nrChannels);
 
-    delete[] data;
+    stbi_image_free(data);
 
     return texture;
 }

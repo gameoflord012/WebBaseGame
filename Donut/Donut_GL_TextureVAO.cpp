@@ -30,7 +30,7 @@ Donut_GL_TextureVAO::Donut_GL_TextureVAO(int nAttribute, float * attributes)
     Donut_glCheckErrorAll();
 }
 
-GLuint Donut_GL_TextureVAO::getId()
+GLuint Donut_GL_TextureVAO::getVAOid()
 {
     return mVAOid;
 }

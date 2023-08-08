@@ -22,11 +22,11 @@ TEST_CASE("Donut READ FILE")
 }
 
 float attributes[] = {
-    // positions        // colors          // texture coords
-    0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-    0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+    // positions          // colors           // texture coords
+         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+         0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
 };
 
 GLuint indices[] = 
@@ -39,7 +39,7 @@ TEST_CASE("Donut SHADER DRAWLINE PROGRAM")
 { 
     Donut::init(500, 500);
 
-    Donut_GL_Texture * texture = Donut_LoadTexture(Donut_GetAssetsPath("donut.jpg"));
+    Donut_GL_Texture * texture = Donut_LoadTexture(Donut_GetAssetsPath("donut.png"));
 
     Donut_glCheckErrorAll();
 
@@ -50,14 +50,12 @@ TEST_CASE("Donut SHADER DRAWLINE PROGRAM")
 
     program.useProgram();
     program.setTextureUniform(texture);
-    glBindVertexArray(vao.getId());
 
-    while(true){
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(vao.getVAOid());
 
-		SDL_GL_SwapWindow(Donut::gWindow);
-    }
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    SDL_GL_SwapWindow(Donut::gWindow);
 }

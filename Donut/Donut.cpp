@@ -3,11 +3,15 @@
 SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;
 SDL_GLContext Donut::gContext = NULL;
+RenderLoopFunc Donut::gRenderLoop = NULL;
+Uint32 Donut::gRenderLoopTimer = 0;
 
-bool Donut::init(int screenWidth, int screenHeight)
+bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 {
     //Initialization flag
 	bool success = true;
+
+	gRenderLoop = renderLoop;
 
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -88,6 +92,35 @@ bool Donut::init(int screenWidth, int screenHeight)
 
 	return success;
 }
+
+bool Donut::updateRenderLoop()
+{
+	if(gRenderLoop == NULL) return false;
+
+	SDL_Event e;
+	while( SDL_PollEvent( &e ) != 0 )
+	{
+		//User requests quitit ad
+		if( e.type == SDL_QUIT )
+		{
+			return false;
+		}
+	}
+
+	if(gRenderLoopTimer == 0)
+	{
+		gRenderLoopTimer = SDL_GetTicks();
+		return true;	
+	}
+	
+	float deltaTime = (float)(SDL_GetTicks() - gRenderLoopTimer) / 1000;
+	gRenderLoopTimer = SDL_GetTicks();
+
+	gRenderLoop(deltaTime);
+
+	return true;
+}
+
 
 void Donut::rendererCopySprite( Sprite sprite )
 {

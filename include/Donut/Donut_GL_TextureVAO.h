@@ -7,7 +7,7 @@ class Donut_GL_TextureVAO
 {
 public:
     Donut_GL_TextureVAO(int nAttribute, float * attributes);
-    GLuint getId();
+    GLuint getVAOid();
     ~Donut_GL_TextureVAO();
 private:
     GLuint mVAOid;
