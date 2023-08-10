@@ -49,7 +49,7 @@ int main()
 
     program = std::make_shared<Donut_GL_Program>(
         Donut_ShaderSource(DONUT_VERTEX_SHADER, "camera.vs"),
-        Donut_ShaderSource(DONUT_VERTEX_SHADER, "textureFragmentShader.txt"));
+        Donut_ShaderSource(DONUT_FRAGMENT_SHADER, "textureFragmentShader.txt"));
         
     program->setTextureUniform(texture.get());
     program->setMat4Uniform("model", model);
