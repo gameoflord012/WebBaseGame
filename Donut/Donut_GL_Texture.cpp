@@ -20,7 +20,7 @@ Donut_GL_Texture::Donut_GL_Texture(const unsigned char *data, int width, int hei
     Donut_glCheckErrorAll();
 }
 
-GLuint Donut_GL_Texture::getId()
+GLuint Donut_GL_Texture::getId() const
 {
     return mId;
 }

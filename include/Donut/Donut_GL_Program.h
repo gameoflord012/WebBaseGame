@@ -5,11 +5,18 @@
 #include "Donut/Utils.h"
 #include "Donut/Donut_ShadderSource.h"
 #include "Donut/Donut.h"
+#include "Donut/Donut_GL_Texture.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class Donut_GL_Program
 {
 public:
     Donut_GL_Program(const char * vertexShader, const char * fragmentShader);
+	Donut_GL_Program(const Donut_ShaderSource & shaderSource, const Donut_ShaderSource & fragmentSource);
+	void setTextureUniform(const Donut_GL_Texture * texture);
+	void setMat4Uniform(const std::string& name, const glm::mat4& mat4);
 	void useProgram();
 	GLuint getProgramId();
     ~Donut_GL_Program();

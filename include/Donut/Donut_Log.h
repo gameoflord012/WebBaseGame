@@ -14,13 +14,13 @@
 #define Donut_LogError(...)     { printf(Donut_ANSI_COLOR_RED "[ERROR]   " Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
 #define Donut_LogCritical(...)  { printf(Donut_ANSI_COLOR_RED "[CRITICAL]" Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
 #define Donut_LogDebug(...)     { printf(Donut_ANSI_COLOR_YELLOW "[DEBUG]   " Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
-#define Donut_LogExtra() { printf("%s:%d\n", __FILE__, __LINE__); }
+#define Donut_LogExtra() { printf("at %s:%d\n", __FILE__, __LINE__); }
 
 #define Donut_assert(condition, ...) \
-    if(!(condition)) {  \
-        Donut_LogExtra(); \
+    if(!(condition)) { \
+        printf(Donut_ANSI_COLOR_RED "[Assertion failed]" Donut_ANSI_COLOR_RESET); Donut_LogExtra(); \
         __VA_ARGS__; \
-        assert(condition); \
+        std::abort(); \
     } 
 
 #endif

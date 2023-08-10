@@ -11,6 +11,5 @@ class Donut_GL_TextureProgram : public Donut_GL_Program
 {
 public:
     Donut_GL_TextureProgram();
-    void setTextureUniform(Donut_GL_Texture * texture);
 };
 #endif

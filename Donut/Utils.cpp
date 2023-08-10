@@ -5,10 +5,15 @@
 #include<sstream>
 
 #include "Donut/Donut_Log.h"
+#include "Donut/Utils.h"
 
 std::string Donut_readfile(std::string filePath)
 {
     std::ifstream ifs(filePath);
+
+    Donut_assert(ifs.is_open(), {
+        Donut_LogError("file %s doesn't exist", filePath.c_str());
+    });
 
     std::stringstream buffer;
     buffer << ifs.rdbuf();
@@ -22,3 +27,12 @@ std::string Donut_readfile(std::string filePath)
     return buffer.str();
 }
 
+std::string Donut_getPath()
+{
+    return "";
+}
+
+std::string Donut_getPath(const std::string& directory,  const std::string& filename)
+{
+    return directory + filename;
+}

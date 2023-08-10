@@ -13,7 +13,7 @@ class Donut_GL_Texture
 {
 public:
     Donut_GL_Texture(const unsigned char * data, int width, int height, unsigned int textureChannel);
-    GLuint getId();
+    GLuint getId() const;
     ~Donut_GL_Texture();
 
 private:

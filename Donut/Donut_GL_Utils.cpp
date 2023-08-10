@@ -9,7 +9,7 @@ Donut_GL_Texture * Donut_LoadTexture(const char *path)
 
     Donut_assert(data, 
     {
-        Donut_LogError("No texture found in %s", &path);
+        Donut_LogError("No texture found in %s", path);
     });
 
     Donut_GL_Texture * texture = new Donut_GL_Texture(data, width, height, nrChannels);
