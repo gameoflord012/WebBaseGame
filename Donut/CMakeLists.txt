@@ -17,16 +17,17 @@ set(DONUT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
 configure_file(${DONUT_SOURCE_DIR}/Donut.h.in ${DONUT_INCLUDE_DIR}/Donut/Donut.h)
 
 add_library(DonutShared SHARED
-    ${DONUT_SOURCE_DIR}/Utils.cpp
-    ${DONUT_SOURCE_DIR}/Donut.cpp
-    ${DONUT_SOURCE_DIR}/Donut_ShadderSource.cpp
-    ${DONUT_SOURCE_DIR}/Donut_GL_Program.cpp
-    ${DONUT_SOURCE_DIR}/Donut_GL.cpp
-    ${DONUT_SOURCE_DIR}/stb_image.cpp
-    ${DONUT_SOURCE_DIR}/Donut_GL_TextureProgram.cpp
-    ${DONUT_SOURCE_DIR}/Donut_GL_TextureVAO.cpp
-    ${DONUT_SOURCE_DIR}/Donut_GL_Texture.cpp
-    ${DONUT_SOURCE_DIR}/Donut_GL_Utils.cpp
+    Utils.cpp
+    Donut.cpp
+    Donut_ShadderSource.cpp
+    Donut_GL_Program.cpp
+    Donut_GL.cpp
+    stb_image.cpp
+    Donut_GL_TextureProgram.cpp
+    Donut_GL_TextureVAO.cpp
+    Donut_GL_Texture.cpp
+    Donut_GL_Utils.cpp
+    Donut_Camera.cpp
 )
 
 target_include_directories(DonutShared PUBLIC ${DONUT_INCLUDE_DIR})
