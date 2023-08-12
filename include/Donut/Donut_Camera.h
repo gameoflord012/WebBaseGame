@@ -10,11 +10,22 @@
 class Donut_Camera
 {
     public:
-        Donut_Camera();
-        glm::mat4 getViewMat() const;
+        Donut_Camera(glm::vec3 cameraPos, glm::vec3 cameraFront);
+        glm::mat4 caculateViewMat() const;
         glm::mat4 getProjectionMat() const;
+        glm::vec3 caculateCameraUp();
+        void setCameraFront(glm::vec3 cameraFront);
+        void rotate(float, float);
+        
     private:
-        glm::mat4 mView;
+        const glm::vec3 UP_VEC = glm::vec3(0.0f, 1.0f, 0.0f);
+        const float CAMERA_FRONT_OFFSET_ANGLE = glm::pi<float>() / 180.;
+
         glm::mat4 mProjection;
+        glm::vec3 mCameraFront;
+        glm::vec3 mCameraPos;
+
+        float mYawInRad;
+        float mPitchInRad;
 };
 #endif
