@@ -4,6 +4,7 @@ SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;
 SDL_GLContext Donut::gContext = NULL;
 RenderLoopFunc Donut::gRenderLoop = NULL;
+EventLoopHandlerFunc Donut::gEventLoopHandler = NULL;
 Uint32 Donut::gRenderLoopTimer = 0;
 
 bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
@@ -14,7 +15,7 @@ bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 	gRenderLoop = renderLoop;
 
 	//Initialize SDL
-	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_EVENTS ) < 0 )
 	{
 		Donut_Log( "SDL could not initialize! SDL Error: %s\n", SDL_GetError() );
 		success = false;
@@ -36,7 +37,7 @@ bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
+		gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL );
 		if( gWindow == NULL )
 		{
 			Donut_LogError( "Window could not be created! SDL Error: %s\n", SDL_GetError() );
@@ -93,7 +94,11 @@ bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 	return success;
 }
 
-bool Donut::updateRenderLoop()
+void Donut::setEventLoopHandler(EventLoopHandlerFunc eventLoopHandler)
+{
+	gEventLoopHandler = eventLoopHandler;
+}
+bool Donut::updateLoops()
 {
 	if(gRenderLoop == NULL) return false;
 
@@ -105,6 +110,9 @@ bool Donut::updateRenderLoop()
 		{
 			return false;
 		}
+
+		if(gEventLoopHandler != NULL)
+			gEventLoopHandler(e);
 	}
 
 	if(gRenderLoopTimer == 0)
@@ -116,7 +124,8 @@ bool Donut::updateRenderLoop()
 	float deltaTime = (float)(SDL_GetTicks() - gRenderLoopTimer) / 1000;
 	gRenderLoopTimer = SDL_GetTicks();
 
-	gRenderLoop(deltaTime);
+	if(gRenderLoop != NULL)
+		gRenderLoop(deltaTime);
 
 	return true;
 }

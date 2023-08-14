@@ -21,6 +21,7 @@ struct Sprite
 };
 
 typedef void (*RenderLoopFunc)(float delta);
+typedef void (*EventLoopHandlerFunc)(const SDL_Event &e);
 
 class Donut
 {
@@ -29,13 +30,15 @@ public:
     static SDL_Renderer* gRenderer;
 
     static bool init(int screenWidth, int screenHeight,  RenderLoopFunc renderloop = NULL);
+    static void setEventLoopHandler(EventLoopHandlerFunc eventLoopHandler);
     static void rendererCopySprite( Sprite sprite );
     static void clean();
     static SDL_Texture* loadTexture( const char * path );
-    static bool updateRenderLoop();
+    static bool updateLoops();
 
 private:
     static RenderLoopFunc gRenderLoop;
+    static EventLoopHandlerFunc gEventLoopHandler;
     static int gScreenWidth;
     static int gScreenHeight;
     static SDL_GLContext gContext;

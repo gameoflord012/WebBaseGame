@@ -28,6 +28,8 @@ GLuint indices[] =
 };
 
 void renderLoop(float delta);
+void eventLoopHandler(const SDL_Event &e);
+
 std::shared_ptr<Donut_GL_TextureVAO> VAO;
 std::shared_ptr<Donut_GL_Texture> texture;
 std::shared_ptr<Donut_GL_Program> program;
@@ -37,6 +39,7 @@ Donut_Camera camera(glm::vec3(0, 0.1, -3), glm::vec3(0, 0, 0));
 int main()
 {
     Donut::init(800, 800, renderLoop);
+    Donut::setEventLoopHandler(eventLoopHandler);
 
     VAO = std::make_shared<Donut_GL_TextureVAO>(4, attributes);
     texture = std::shared_ptr<Donut_GL_Texture>(Donut_LoadTexture(Donut_GetAssetsPath("donut.png")));
@@ -51,29 +54,34 @@ int main()
     program->useProgram();
     glBindVertexArray(VAO->getVAOid());
 
-    while(Donut::updateRenderLoop());
+    while(Donut::updateLoops());
 }
 
-int prevMouseX, prevMouseY;
 int offsetX, offsetY;
 void mouseHandler()
 {
-    int mouseX, mouseY;
-    SDL_GetMouseState(&mouseX, &mouseY);
+    int posX, posY;
+    SDL_GetMouseState(&posX, &posY);
+}
 
-    offsetX = mouseX - prevMouseX;
-    offsetY = mouseY - prevMouseY;
-
-    prevMouseX = mouseX;
-    prevMouseY = mouseY;
+void eventLoopHandler(const SDL_Event &e)
+{
+    if(e.type == SDL_MOUSEBUTTONDOWN)
+    {
+        if(e.button.button == SDL_BUTTON_RIGHT)
+        {
+            Donut_Log("mouse clicked!");
+        }
+    }
 }
 
 void renderLoop(float delta)
 {
+    mouseHandler();
+
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    mouseHandler();
     camera.rotate(glm::radians((float)offsetX * 5) * delta, glm::radians((float)offsetY * 5) * delta);
 
     program->setMat4Uniform("view", camera.caculateViewMat());
