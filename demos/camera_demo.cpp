@@ -28,6 +28,7 @@ GLuint indices[] =
 };
 
 void renderLoop(float delta);
+void eventLoop(const SDL_Event &e);
 
 std::shared_ptr<Donut_GL_TextureVAO> VAO;
 std::shared_ptr<Donut_GL_Texture> texture;
@@ -38,6 +39,7 @@ Donut_Camera camera(glm::vec3(0, 0.1, -3), glm::vec3(0, 0, 0));
 int main()
 {
     Donut::init(800, 800, renderLoop);
+    Donut::setEventLoopHandler(eventLoop);
 
     VAO = std::make_shared<Donut_GL_TextureVAO>(4, attributes);
     texture = std::shared_ptr<Donut_GL_Texture>(Donut_LoadTexture(Donut_GetAssetsPath("donut.png")));
@@ -78,4 +80,19 @@ void renderLoop(float delta)
     SDL_GL_SwapWindow(Donut::gWindow);
 
     Donut_glCheckErrorAll();
+}
+
+glm::vec<2, int> moveDirection;
+bool isPressed[123];
+
+void eventLoop(const SDL_Event &event)
+{
+    if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
+    {
+        isPressed[event.key.keysym.sym] = event.type == SDL_KEYDOWN;
+        moveDirection.x = isPressed['a'] * -1 + isPressed['d'];
+        moveDirection.y = isPressed['s'] * -1 + isPressed['w'];
+    }
+
+    Donut_Log("%d %d", moveDirection.x, moveDirection.y);
 }
