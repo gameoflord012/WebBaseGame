@@ -95,6 +95,7 @@
         "*.inc": "cpp"
     },
     "files.exclude": {
+        "include/Donut/Donut.h":true
     }
 }
   

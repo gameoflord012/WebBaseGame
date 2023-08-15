@@ -20,6 +20,13 @@ struct Sprite
     SDL_Rect rect;
 };
 
+struct MouseData
+{
+    bool isMouseDown = false;
+    int offsetX, offsetY;
+    int previousX, previousY, mouseX, mouseY;
+};
+
 typedef void (*RenderLoopFunc)(float delta);
 typedef void (*EventLoopHandlerFunc)(const SDL_Event &e);
 
@@ -35,6 +42,7 @@ public:
     static void clean();
     static SDL_Texture* loadTexture( const char * path );
     static bool updateLoops();
+    static MouseData getMouseData();
 
 private:
     static RenderLoopFunc gRenderLoop;
@@ -43,6 +51,7 @@ private:
     static int gScreenHeight;
     static SDL_GLContext gContext;
     static Uint32 gRenderLoopTimer;
+    static MouseData gMouseData;
 };
 
 #endif // DONUT_H

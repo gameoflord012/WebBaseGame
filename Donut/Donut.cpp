@@ -5,6 +5,7 @@ SDL_Renderer* Donut::gRenderer = NULL;
 SDL_GLContext Donut::gContext = NULL;
 RenderLoopFunc Donut::gRenderLoop = NULL;
 EventLoopHandlerFunc Donut::gEventLoopHandler = NULL;
+MouseData Donut::gMouseData;
 Uint32 Donut::gRenderLoopTimer = 0;
 
 bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
@@ -98,6 +99,13 @@ void Donut::setEventLoopHandler(EventLoopHandlerFunc eventLoopHandler)
 {
 	gEventLoopHandler = eventLoopHandler;
 }
+
+MouseData Donut::getMouseData()
+{
+	return gMouseData;
+}
+
+
 bool Donut::updateLoops()
 {
 	if(gRenderLoop == NULL) return false;
@@ -111,9 +119,31 @@ bool Donut::updateLoops()
 			return false;
 		}
 
+		if(e.type == SDL_MOUSEBUTTONDOWN)
+		{
+			gMouseData.isMouseDown = true;
+		}
+
+		if(e.type == SDL_MOUSEBUTTONUP)
+		{
+			gMouseData.isMouseDown = false;
+		}
+
+		if(e.type == SDL_MOUSEMOTION)
+		{
+			gMouseData.mouseX = e.motion.x;
+			gMouseData.mouseY = e.motion.y;
+		}
+
 		if(gEventLoopHandler != NULL)
 			gEventLoopHandler(e);
 	}
+
+	gMouseData.offsetX = gMouseData.mouseX - gMouseData.previousX;
+    gMouseData.offsetY = gMouseData.mouseY - gMouseData.previousY;
+
+    gMouseData.previousX = gMouseData.mouseX;
+    gMouseData.previousY = gMouseData.mouseY;
 
 	if(gRenderLoopTimer == 0)
 	{
