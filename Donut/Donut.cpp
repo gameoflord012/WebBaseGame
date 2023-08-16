@@ -7,6 +7,8 @@ RenderLoopFunc Donut::gRenderLoop = NULL;
 EventLoopHandlerFunc Donut::gEventLoopHandler = NULL;
 MouseData Donut::gMouseData;
 Uint32 Donut::gRenderLoopTimer = 0;
+std::map<uint32_t, bool> Donut::gIsKeyPressed;
+
 
 bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 {
@@ -135,6 +137,11 @@ bool Donut::updateLoops()
 			gMouseData.mouseY = e.motion.y;
 		}
 
+		if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
+		{
+			gIsKeyPressed[e.key.keysym.sym] = e.type == SDL_KEYDOWN;
+		}
+
 		if(gEventLoopHandler != NULL)
 			gEventLoopHandler(e);
 	}
@@ -160,7 +167,10 @@ bool Donut::updateLoops()
 	return true;
 }
 
-
+bool Donut::isKeyPressed(SDL_KeyCode keyCode)
+{
+    return gIsKeyPressed[keyCode];
+}
 void Donut::rendererCopySprite( Sprite sprite )
 {
 	SDL_RenderCopy( Donut::gRenderer, sprite.texture, NULL, &sprite.rect );

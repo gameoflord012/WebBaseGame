@@ -60,14 +60,10 @@ int main()
 
 float mouseSens = 10;
 glm::vec<3, int> moveDirection;
-std::map<unsigned int, bool> isKeyPressed;
 
-void renderLoop(float delta)
+void cameraInputHandler(float delta)
 {
     MouseData mouseData = Donut::getMouseData();
-
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 
     if(Donut::getMouseData().isMouseDown)
     {
@@ -77,6 +73,14 @@ void renderLoop(float delta)
     }
 
     camera.move(moveDirection.x * delta, moveDirection.y * delta, moveDirection.z * delta);
+}
+
+void renderLoop(float delta)
+{
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    cameraInputHandler(delta);
 
     program->setMat4Uniform("view", camera.caculateViewMat());
     program->setMat4Uniform("projection", camera.getProjectionMat());
@@ -90,14 +94,9 @@ void renderLoop(float delta)
 
 void eventLoop(const SDL_Event &event)
 {
-    if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
-    {
-        isKeyPressed[event.key.keysym.sym] = event.type == SDL_KEYDOWN;
-
-        moveDirection.x = isKeyPressed[SDLK_a] * -1 + isKeyPressed[SDLK_d];
-        moveDirection.y = isKeyPressed[SDLK_LSHIFT] * -1 + isKeyPressed[SDLK_SPACE];
-        moveDirection.z = isKeyPressed[SDLK_s] * -1 + isKeyPressed[SDLK_w];
-    }
+    moveDirection.x = Donut::isKeyPressed(SDLK_a) * -1 + Donut::isKeyPressed(SDLK_d);
+    moveDirection.y = Donut::isKeyPressed(SDLK_LSHIFT) * -1 + Donut::isKeyPressed(SDLK_SPACE);
+    moveDirection.z = Donut::isKeyPressed(SDLK_s) * -1 + Donut::isKeyPressed(SDLK_w);
 
     //Donut_Log("%d %d %d", moveDirection.x, moveDirection.y, moveDirection.z);
 }

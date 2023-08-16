@@ -60,5 +60,5 @@ void Donut_Camera::move(float moveRight, float moveUp, float moveForward)
         moveRight * rightVec +
         moveForward * frontVec;
 
-    Donut_Log("%f %f %f", mCameraPos.x, mCameraPos.y, mCameraPos.z);
+    //Donut_Log("%f %f %f", mCameraPos.x, mCameraPos.y, mCameraPos.z);
 }

@@ -4,6 +4,7 @@
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <map>
 
 #include "Donut/Donut_GL.h"
 #include "Donut/Donut_Log.h"
@@ -40,6 +41,7 @@ public:
     static void setEventLoopHandler(EventLoopHandlerFunc eventLoopHandler);
     static void rendererCopySprite( Sprite sprite );
     static void clean();
+    static bool isKeyPressed(SDL_KeyCode keyCode);
     static SDL_Texture* loadTexture( const char * path );
     static bool updateLoops();
     static MouseData getMouseData();
@@ -52,6 +54,7 @@ private:
     static SDL_GLContext gContext;
     static Uint32 gRenderLoopTimer;
     static MouseData gMouseData;
+    static std::map<uint32_t, bool> gIsKeyPressed;
 };
 
 #endif // DONUT_H
