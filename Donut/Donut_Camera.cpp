@@ -50,3 +50,15 @@ void Donut_Camera::rotate(float yawInRad, float pitchInRad)
 
     //Donut_Log("%f %f %f", mCameraFront.x, mCameraFront.y, mCameraFront.z);
 }
+void Donut_Camera::move(float moveRight, float moveUp, float moveForward)
+{
+    glm::vec3 rightVec = glm::normalize(glm::cross(mCameraFront, UP_VEC));
+    glm::vec3 frontVec = glm::normalize(glm::cross(UP_VEC, rightVec));
+
+    mCameraPos += 
+        moveUp * UP_VEC +
+        moveRight * rightVec +
+        moveForward * frontVec;
+
+    Donut_Log("%f %f %f", mCameraPos.x, mCameraPos.y, mCameraPos.z);
+}

@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <map>
 
 #include "Donut/Donut.h"
 #include "Donut/Donut_GL.h"
@@ -34,7 +35,7 @@ std::shared_ptr<Donut_GL_TextureVAO> VAO;
 std::shared_ptr<Donut_GL_Texture> texture;
 std::shared_ptr<Donut_GL_Program> program;
 
-Donut_Camera camera(glm::vec3(0, 0.1, -3), glm::vec3(0, 0, 0));
+Donut_Camera camera(glm::vec3(0, 0.1, 3), glm::vec3(0, 0, 0));
 
 int main()
 {
@@ -42,7 +43,7 @@ int main()
     Donut::setEventLoopHandler(eventLoop);
 
     VAO = std::make_shared<Donut_GL_TextureVAO>(4, attributes);
-    texture = std::shared_ptr<Donut_GL_Texture>(Donut_LoadTexture(Donut_GetAssetsPath("donut.png")));
+    texture = std::shared_ptr<Donut_GL_Texture>(Donut_LoadTexture(Donut_GetAssetsPath("hello_world.bmp")));
 
     program = std::make_shared<Donut_GL_Program>(
         Donut_ShaderSource(DONUT_VERTEX_SHADER, "camera.vs"),
@@ -58,6 +59,8 @@ int main()
 }
 
 float mouseSens = 10;
+glm::vec<3, int> moveDirection;
+std::map<unsigned int, bool> isKeyPressed;
 
 void renderLoop(float delta)
 {
@@ -73,6 +76,8 @@ void renderLoop(float delta)
             glm::radians((float)mouseData.offsetY * 10) * delta);
     }
 
+    camera.move(moveDirection.x * delta, moveDirection.y * delta, moveDirection.z * delta);
+
     program->setMat4Uniform("view", camera.caculateViewMat());
     program->setMat4Uniform("projection", camera.getProjectionMat());
  
@@ -82,17 +87,17 @@ void renderLoop(float delta)
     Donut_glCheckErrorAll();
 }
 
-glm::vec<2, int> moveDirection;
-bool isPressed[123];
 
 void eventLoop(const SDL_Event &event)
 {
     if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
     {
-        isPressed[event.key.keysym.sym] = event.type == SDL_KEYDOWN;
-        moveDirection.x = isPressed['a'] * -1 + isPressed['d'];
-        moveDirection.y = isPressed['s'] * -1 + isPressed['w'];
+        isKeyPressed[event.key.keysym.sym] = event.type == SDL_KEYDOWN;
+
+        moveDirection.x = isKeyPressed[SDLK_a] * -1 + isKeyPressed[SDLK_d];
+        moveDirection.y = isKeyPressed[SDLK_LSHIFT] * -1 + isKeyPressed[SDLK_SPACE];
+        moveDirection.z = isKeyPressed[SDLK_s] * -1 + isKeyPressed[SDLK_w];
     }
 
-    Donut_Log("%d %d", moveDirection.x, moveDirection.y);
+    //Donut_Log("%d %d %d", moveDirection.x, moveDirection.y, moveDirection.z);
 }

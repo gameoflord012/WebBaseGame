@@ -16,6 +16,7 @@ class Donut_Camera
         glm::vec3 caculateCameraUp();
         void setCameraFront(glm::vec3 cameraFront);
         void rotate(float, float);
+        void move(float moveRight, float moveUp, float moveForward);
         
     private:
         const glm::vec3 UP_VEC = glm::vec3(0.0f, 1.0f, 0.0f);
