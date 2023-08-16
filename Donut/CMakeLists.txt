@@ -28,6 +28,7 @@ add_library(DonutShared SHARED
     Donut_GL_Texture.cpp
     Donut_GL_Utils.cpp
     Donut_Camera.cpp
+    Donut_GL_VAO.cpp
 )
 
 target_include_directories(DonutShared PUBLIC ${DONUT_INCLUDE_DIR})

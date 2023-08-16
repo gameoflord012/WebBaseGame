@@ -13,6 +13,7 @@
 #include "Donut/Donut_GL_TextureProgram.h"
 #include "Donut/Donut_GL_Utils.h"
 #include "Donut/Donut_Camera.h"
+#include "Donut/Donut_GL_VAO.h"
 
 float attributes[] = {
     // positions          // colors           // texture coords
@@ -31,7 +32,7 @@ GLuint indices[] =
 void renderLoop(float delta);
 void eventLoop(const SDL_Event &e);
 
-std::shared_ptr<Donut_GL_TextureVAO> VAO;
+std::shared_ptr<Donut_GL_VAO> VAO;
 std::shared_ptr<Donut_GL_Texture> texture;
 std::shared_ptr<Donut_GL_Program> program;
 
@@ -42,7 +43,15 @@ int main()
     Donut::init(800, 800, renderLoop);
     Donut::setEventLoopHandler(eventLoop);
 
-    VAO = std::make_shared<Donut_GL_TextureVAO>(4, attributes);
+    VAO = std::make_shared<Donut_GL_VAO>();
+
+    VAO->setVBOdata(sizeof attributes, attributes);
+    VAO->setEBOdata(sizeof indices, indices);
+
+    VAO->addAttributePointer(3, DONUT_FLOAT, 8 * sizeof(float));
+    VAO->addAttributePointer(3, DONUT_FLOAT, 8 * sizeof(float));
+    VAO->addAttributePointer(2, DONUT_FLOAT, 8 * sizeof(float));
+
     texture = std::shared_ptr<Donut_GL_Texture>(Donut_LoadTexture(Donut_GetAssetsPath("hello_world.bmp")));
 
     program = std::make_shared<Donut_GL_Program>(
@@ -53,7 +62,6 @@ int main()
     program->setMat4Uniform("model", glm::mat4(1.0f));
 
     program->useProgram();
-    glBindVertexArray(VAO->getVAOid());
 
     while(Donut::updateLoops());
 }
@@ -81,6 +89,8 @@ void renderLoop(float delta)
     glClear(GL_COLOR_BUFFER_BIT);
 
     cameraInputHandler(delta);
+
+    glBindVertexArray(VAO->getVAOid());
 
     program->setMat4Uniform("view", camera.caculateViewMat());
     program->setMat4Uniform("projection", camera.getProjectionMat());

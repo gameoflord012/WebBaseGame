@@ -19,6 +19,7 @@ public:
 	void setMat4Uniform(const std::string& name, const glm::mat4& mat4);
 	void useProgram();
 	GLuint getProgramId();
+	virtual void draw() {}
     ~Donut_GL_Program();
 
 private:
