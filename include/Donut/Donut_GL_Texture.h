@@ -3,6 +3,8 @@
 
 #include "Donut/Donut_GL.h"
 
+#include <glm/glm.hpp>
+
 enum Donut_TextureChannel
 {
     DONUT_RGB = 3,

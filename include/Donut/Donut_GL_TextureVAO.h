@@ -2,16 +2,19 @@
 #define Donut_GL_TextureVAO_h
 
 #include "Donut/Donut_GL.h"
+#include "Donut/Donut_GL_VAO.h"
 
-class Donut_GL_TextureVAO
+#include <glm/glm.hpp>
+
+struct Donut_Rect
+{
+    float px, py;
+    float width, height;
+};
+
+class Donut_GL_TextureVAO : public Donut_GL_VAO
 {
 public:
-    Donut_GL_TextureVAO(int nAttribute, float * attributes);
-    GLuint getVAOid();
-    ~Donut_GL_TextureVAO();
-private:
-    GLuint mVAOid;
-    GLuint mVBOid;
-    GLuint mEBOid;
+    Donut_GL_TextureVAO(const Donut_Rect & rect);
 };
 #endif

@@ -25,11 +25,11 @@ add_library(DonutShared SHARED
     Donut_GL.cpp
     stb_image.cpp
     Donut_GL_TextureProgram.cpp
-    Donut_GL_TextureVAO.cpp
     Donut_GL_Texture.cpp
     Donut_GL_Utils.cpp
     Donut_Camera.cpp
     Donut_GL_VAO.cpp
+    Donut_GL_TextureVAO.cpp
 )
 
 target_include_directories(DonutShared PUBLIC ${DONUT_INCLUDE_DIR})
