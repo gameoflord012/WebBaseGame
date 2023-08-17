@@ -92,7 +92,8 @@
         "cstdbool": "cpp",
         "version": "cpp",
         "*.def": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "typeindex": "cpp"
     },
     "files.exclude": {
         "include/Donut/Donut.h":true

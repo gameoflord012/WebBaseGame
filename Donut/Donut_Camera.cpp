@@ -32,23 +32,31 @@ void Donut_Camera::setCameraFront(glm::vec3 cameraFront)
     float angle = Donut_getAngle(cameraFront, UP_VEC);
 
     if(
-        angle > CAMERA_FRONT_OFFSET_ANGLE &&
-        angle < glm::pi<float>() - CAMERA_FRONT_OFFSET_ANGLE)
+        angle < CAMERA_FRONT_OFFSET_ANGLE ||
+        angle > glm::pi<float>() - CAMERA_FRONT_OFFSET_ANGLE)
     {
-        Donut_throw(Donut::BadValue("Camera font bad position, shouldn't overlap UP_VEC"));
+        throw Donut::BadValue("Camera font bad position, shouldn't overlap UP_VEC");
     }
 
     mCameraFront =  glm::normalize(cameraFront);
+    //Donut_Log("%f", angle);
 }
 
 void Donut_Camera::rotate(float yawInRad, float pitchInRad)
 {    
     glm::mat4 rotationMat = glm::mat4(1.0f);
 
-    rotationMat = glm::rotate(rotationMat, yawInRad, UP_VEC);
+    //rotationMat = glm::rotate(rotationMat, yawInRad, UP_VEC);
     rotationMat = glm::rotate(rotationMat, pitchInRad, glm::cross(mCameraFront, UP_VEC));
-
-    setCameraFront(glm::vec3(rotationMat * glm::vec4(mCameraFront, 1.0f)));
+    try
+    {
+        setCameraFront(glm::vec3(rotationMat * glm::vec4(mCameraFront, 1.0f)));
+    }
+    catch(const std::exception& e)
+    {
+        
+    }
+    
 
     //Donut_Log("%f %f %f", mCameraFront.x, mCameraFront.y, mCameraFront.z);
 }

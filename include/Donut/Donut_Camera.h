@@ -20,7 +20,7 @@ class Donut_Camera
         
     private:
         const glm::vec3 UP_VEC = glm::vec3(0.0f, 1.0f, 0.0f);
-        const float CAMERA_FRONT_OFFSET_ANGLE = glm::pi<float>() / 180.;
+        const float CAMERA_FRONT_OFFSET_ANGLE = glm::pi<float>() / 18.;
 
         glm::mat4 mProjection;
         glm::vec3 mCameraFront;

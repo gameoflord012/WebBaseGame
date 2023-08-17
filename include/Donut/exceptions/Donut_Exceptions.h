@@ -7,15 +7,7 @@
 
 #include "Donut/Donut_Log.h"
 
-#define Donut_throw(except) \
-    std::cerr << DONUT_COLOR_RED << "[Unhandled Exception]" << DONUT_COLOR_RESET << " at " << __FILE__ << ":" << __LINE__ << "\n"; \
-    try { \
-        throw except; \
-    } \
-    catch (const std::exception& e) { \
-        std::cerr << "\t" << e.what() << std::endl; \
-        std::abort(); \
-    }
+#define Donut_throw(except, msg) throw except(__FILE__, __LINE__, msg)
 
 namespace Donut
 {
