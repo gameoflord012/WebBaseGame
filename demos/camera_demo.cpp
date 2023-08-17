@@ -25,8 +25,8 @@ float attributes[] = {
 
 GLuint indices[] = 
 {
-    0, 1, 3,
-    1, 2, 3
+    2, 0, 3,
+    2, 1, 0
 };
 
 void renderLoop(float delta);
@@ -59,7 +59,6 @@ int main()
         Donut_ShaderSource(DONUT_FRAGMENT_SHADER, "textureFragmentShader.txt"));
         
     program->setTextureUniform(texture.get());
-    program->setMat4Uniform("model", glm::mat4(1.0f));
 
     program->useProgram();
 
@@ -92,6 +91,7 @@ void renderLoop(float delta)
 
     glBindVertexArray(VAO->getVAOid());
 
+    program->setMat4Uniform("model", glm::mat4(1.0f));
     program->setMat4Uniform("view", camera.caculateViewMat());
     program->setMat4Uniform("projection", camera.getProjectionMat());
  
