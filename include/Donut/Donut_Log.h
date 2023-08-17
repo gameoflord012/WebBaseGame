@@ -3,22 +3,22 @@
 
 #include <assert.h>
 
-#define Donut_ANSI_COLOR_RED     "\x1b[31m"
-#define Donut_ANSI_COLOR_GREEN   "\x1b[32m"
-#define Donut_ANSI_COLOR_YELLOW  "\x1b[33m"
-#define Donut_ANSI_COLOR_BLUE    "\x1b[34m"
-#define Donut_ANSI_COLOR_RESET   "\x1b[0m"
+#define DONUT_COLOR_RED     "\x1b[31m"
+#define DONUT_COLOR_GREEN   "\x1b[32m"
+#define DONUT_COLOR_YELLOW  "\x1b[33m"
+#define DONUT_COLOR_BLUE    "\x1b[34m"
+#define DONUT_COLOR_RESET   "\x1b[0m"
 
-#define Donut_Log(...)          { printf(Donut_ANSI_COLOR_BLUE "[INFO]    " Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
-#define Donut_LogWarning(...)   { printf(Donut_ANSI_COLOR_YELLOW "[WARNING] " Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
-#define Donut_LogError(...)     { printf(Donut_ANSI_COLOR_RED "[ERROR]   " Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
-#define Donut_LogCritical(...)  { printf(Donut_ANSI_COLOR_RED "[CRITICAL]" Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
-#define Donut_LogDebug(...)     { printf(Donut_ANSI_COLOR_YELLOW "[DEBUG]   " Donut_ANSI_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
+#define Donut_Log(...)          { printf(DONUT_COLOR_BLUE "[INFO]    " DONUT_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
+#define Donut_LogWarning(...)   { printf(DONUT_COLOR_YELLOW "[WARNING] " DONUT_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
+#define Donut_LogError(...)     { printf(DONUT_COLOR_RED "[ERROR]   " DONUT_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
+#define Donut_LogCritical(...)  { printf(DONUT_COLOR_RED "[CRITICAL]" DONUT_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
+#define Donut_LogDebug(...)     { printf(DONUT_COLOR_YELLOW "[DEBUG]   " DONUT_COLOR_RESET);  printf(__VA_ARGS__); printf("\n"); }
 #define Donut_LogExtra() { printf("at %s:%d\n", __FILE__, __LINE__); }
 
 #define Donut_assert(condition, ...) \
     if(!(condition)) { \
-        printf(Donut_ANSI_COLOR_RED "[Assertion failed]" Donut_ANSI_COLOR_RESET); Donut_LogExtra(); \
+        printf(DONUT_COLOR_RED "[Assertion failed]" DONUT_COLOR_RESET); Donut_LogExtra(); \
         __VA_ARGS__; \
         std::abort(); \
     } 

@@ -1,5 +1,6 @@
 #include "Donut/Donut_Camera.h"
 #include "Donut/Donut_GL_Utils.h"
+#include "Donut/exceptions/Donut_Exceptions.h"
 
 Donut_Camera::Donut_Camera(glm::vec3 cameraPos, glm::vec3 lookAtPostion)
 {
@@ -29,12 +30,13 @@ glm::vec3 Donut_Camera::caculateCameraUp()
 void Donut_Camera::setCameraFront(glm::vec3 cameraFront)
 {
     float angle = Donut_getAngle(cameraFront, UP_VEC);
-    Donut_assert(
+
+    if(
         angle > CAMERA_FRONT_OFFSET_ANGLE &&
-        angle < glm::pi<float>() - CAMERA_FRONT_OFFSET_ANGLE,
+        angle < glm::pi<float>() - CAMERA_FRONT_OFFSET_ANGLE)
     {
-        Donut_LogError("CameraFront bad position");
-    });
+        Donut_throw(Donut::BadValue("Camera font bad position, shouldn't overlap UP_VEC"));
+    }
 
     mCameraFront =  glm::normalize(cameraFront);
 }

@@ -5,6 +5,7 @@ project(Donut)
 #find_package(box2d REQUIRED CONFIG COMPONENTS box2d)
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 find_package(PkgConfig REQUIRED)
+find_package(fmt REQUIRED)
 
 pkg_check_modules(GLEW REQUIRED glew)
 
@@ -36,5 +37,6 @@ target_include_directories(DonutShared PUBLIC ${DONUT_INCLUDE_DIR})
 target_link_libraries(DonutShared PUBLIC 
     SDL2::SDL2
     #box2d::box2d
-    ${GLEW_LIBRARIES})
+    ${GLEW_LIBRARIES}
+    fmt::fmt)
 

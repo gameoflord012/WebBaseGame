@@ -1,0 +1,6 @@
+cd fmtlib
+mkdir build
+cd build
+cmake -DFMT_TEST=OFF -DCMAKE_CXX_FLAGS=-fPIC ..
+make
+sudo make install
