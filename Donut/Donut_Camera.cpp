@@ -44,19 +44,17 @@ void Donut_Camera::setCameraFront(glm::vec3 cameraFront)
 
 void Donut_Camera::rotate(float yawInRad, float pitchInRad)
 {    
-    glm::mat4 rotationMat = glm::mat4(1.0f);
+    glm::mat4 rotationMatYaw = glm::rotate(glm::mat4(1.0f), yawInRad, UP_VEC);
+    glm::mat4 rotationMatPitch = glm::rotate(glm::mat4(1.0f), pitchInRad, glm::cross(mCameraFront, UP_VEC));
 
-    //rotationMat = glm::rotate(rotationMat, yawInRad, UP_VEC);
-    rotationMat = glm::rotate(rotationMat, pitchInRad, glm::cross(mCameraFront, UP_VEC));
-    try
-    {
-        setCameraFront(glm::vec3(rotationMat * glm::vec4(mCameraFront, 1.0f)));
+    try {
+        setCameraFront(glm::vec3(rotationMatYaw * glm::vec4(mCameraFront, 1.0f)));
+    } catch(const std::exception& e) {}
+
+    try {
+        setCameraFront(glm::vec3(rotationMatPitch * glm::vec4(mCameraFront, 1.0f)));
     }
-    catch(const std::exception& e)
-    {
-        
-    }
-    
+    catch(const std::exception& e) {}
 
     //Donut_Log("%f %f %f", mCameraFront.x, mCameraFront.y, mCameraFront.z);
 }
