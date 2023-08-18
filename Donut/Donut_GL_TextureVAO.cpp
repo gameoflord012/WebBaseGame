@@ -23,7 +23,7 @@ Donut_GL_TextureVAO::Donut_GL_TextureVAO(const Donut_Rect & rect) : Donut_GL_VAO
         2, 1, 0
     };
 
-    setVBOdata(sizeof attributes, attributes);
+    createVBOdata(sizeof attributes, attributes);
     setEBOdata(sizeof indices, indices);
 
     Donut_glCheckErrorAll();

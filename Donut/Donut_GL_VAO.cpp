@@ -36,7 +36,7 @@ void Donut_GL_VAO::addAttributePointer(unsigned int nComponent, Donut_Type compo
     Donut_glCheckErrorAll();
 }
 
-void Donut_GL_VAO::setVBOdata(GLuint dataSize, void *data, GLuint flag)
+void Donut_GL_VAO::createVBOdata(GLuint dataSize, void *data, GLuint flag)
 {
     glBindVertexArray(mVAOid);
 
@@ -47,6 +47,13 @@ void Donut_GL_VAO::setVBOdata(GLuint dataSize, void *data, GLuint flag)
     Donut_glCheckErrorAll();
 }
 
+void Donut_GL_VAO::changeVBOdata(GLuint dataSize, void *data)
+{
+    glBindBuffer(GL_ARRAY_BUFFER, mVBOid);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, data);
+
+    Donut_glCheckErrorAll();
+}
 void Donut_GL_VAO::setEBOdata(GLuint dataSize, void *data, GLuint flag)
 {
     glBindVertexArray(mVAOid);

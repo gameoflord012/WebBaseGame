@@ -24,9 +24,9 @@ public:
     Donut_GL_VAO();
     GLuint getVAOid();
     
-protected:
     void addAttributePointer(unsigned int nComponent, Donut_Type componentType, ptrdiff_t stride);
-    void setVBOdata(GLuint dataSize, void * data, GLuint flag = GL_STATIC_DRAW);
+    void createVBOdata(GLuint dataSize, void * data, GLuint flag = GL_STATIC_DRAW);
+    void changeVBOdata(GLuint dataSize, void * data);
     void setEBOdata(GLuint dataSize, void * data, GLuint flag = GL_STATIC_DRAW);
     ~Donut_GL_VAO();
 

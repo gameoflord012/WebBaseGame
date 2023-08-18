@@ -11,15 +11,11 @@ GLuint Donut_GL_Program::getProgramId()
     return mProgramId;
 }
 
-Donut_GL_Program::Donut_GL_Program(const char *vertexShader, const char *fragmentShader)
+Donut_GL_Program::Donut_GL_Program(const char *vertexShaderPath, const char *fragmentShaderPath) : Donut_GL_Program(
+	Donut_ShaderSource(DONUT_VERTEX_SHADER, vertexShaderPath),
+	Donut_ShaderSource(DONUT_FRAGMENT_SHADER, fragmentShaderPath))
 {
-    Donut_ShaderSource vertexShaderSource(DONUT_VERTEX_SHADER);
-	vertexShaderSource.compileShader(vertexShader);
-
-	Donut_ShaderSource fragmentShaderSource(DONUT_FRAGMENT_SHADER);
-	fragmentShaderSource.compileShader(fragmentShader);
-
-    Donut_GL_Program(vertexShaderSource, fragmentShaderSource);
+	
 }
 
 Donut_GL_Program::Donut_GL_Program(const Donut_ShaderSource & vertexShaderSource, const Donut_ShaderSource & fragmentShaderSource)
@@ -51,12 +47,12 @@ Donut_GL_Program::Donut_GL_Program(const Donut_ShaderSource & vertexShaderSource
     Donut_glCheckErrorAll();
 }
 
-void Donut_GL_Program::setTextureUniform(const Donut_GL_Texture *texture)
+void Donut_GL_Program::setTextureUniform(const Donut_GL_Texture & texture)
 {
     useProgram();
 
     glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
-    glBindTexture(GL_TEXTURE_2D, texture->getId());
+    glBindTexture(GL_TEXTURE_2D, texture.getId());
 
     glUniform1i(glGetUniformLocation(getProgramId(), "theTexture"), 0);
 
@@ -65,6 +61,7 @@ void Donut_GL_Program::setTextureUniform(const Donut_GL_Texture *texture)
 
 void Donut_GL_Program::setMat4Uniform(const std::string& name, const glm::mat4& mat4)
 {
+	Donut_glCheckErrorAll();
 	useProgram();
 	glUniformMatrix4fv(glGetUniformLocation(getProgramId(), name.c_str()), 1, GL_FALSE, glm::value_ptr(mat4));
     Donut_glCheckErrorAll();

@@ -10,7 +10,12 @@ Donut_ShaderSource::Donut_ShaderSource(ShaderType shaderType, const char * shade
 {
     Donut_glCheckErrorAll();
     shader = glCreateShader(shaderType);
-    compileShader(Donut_readfile(Donut_getPath(DONUT_SHADERS_DIR, shaderSourcePath)).c_str());
+
+    if(shaderSourcePath != NULL)
+    {
+        compileShader(Donut_readfile(Donut_getPath(DONUT_SHADERS_DIR, shaderSourcePath)).c_str());
+    }
+    
     Donut_glCheckErrorAll();
 }
 

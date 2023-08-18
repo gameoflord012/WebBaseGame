@@ -34,7 +34,7 @@ void eventLoop(const SDL_Event &e);
 
 std::shared_ptr<Donut_GL_TextureVAO> VAO;
 std::shared_ptr<Donut_GL_Texture> texture;
-std::shared_ptr<Donut_GL_Program> program;
+std::shared_ptr<Donut_GL_TextureProgram> program;
 
 Donut_Camera camera(glm::vec3(0, 0.1, 3), glm::vec3(0, 0, 0));
 
@@ -43,17 +43,10 @@ int main()
     Donut::init(800, 800, renderLoop);
     Donut::setEventLoopHandler(eventLoop);
 
-    VAO = std::make_shared<Donut_GL_TextureVAO>(Donut_Rect {0, 0, 2, 2});
-
     texture = std::shared_ptr<Donut_GL_Texture>(Donut_LoadTexture(Donut_GetAssetsPath("hello_world.bmp")));
-
-    program = std::make_shared<Donut_GL_Program>(
-        Donut_ShaderSource(DONUT_VERTEX_SHADER, "camera.vs"),
-        Donut_ShaderSource(DONUT_FRAGMENT_SHADER, "textureFragmentShader.txt"));
+    program = std::make_shared<Donut_GL_TextureProgram>();
         
-    program->setTextureUniform(texture.get());
-
-    program->useProgram();
+    program->setTextureUniform(*texture);
 
     while(Donut::updateLoops());
 }
@@ -81,15 +74,13 @@ void renderLoop(float delta)
     glClear(GL_COLOR_BUFFER_BIT);
 
     cameraInputHandler(delta);
-    
-    glBindVertexArray(VAO->getVAOid());
-    Donut_glCheckErrorAll();
 
     program->setMat4Uniform("model", glm::mat4(1.0f));
     program->setMat4Uniform("view", camera.caculateViewMat());
     program->setMat4Uniform("projection", camera.getProjectionMat());
  
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    program->draw();
+    
     SDL_GL_SwapWindow(Donut::gWindow);
 
     Donut_glCheckErrorAll();
