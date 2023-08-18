@@ -112,6 +112,8 @@ bool Donut::updateLoops()
 {
 	if(gRenderLoop == NULL) return false;
 
+	bool hasMouseScrollEvent = false;
+
 	SDL_Event e;
 	while( SDL_PollEvent( &e ) != 0 )
 	{
@@ -121,14 +123,24 @@ bool Donut::updateLoops()
 			return false;
 		}
 
-		if(e.type == SDL_MOUSEBUTTONDOWN)
+		if(e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
 		{
-			gMouseData.isMouseDown = true;
+			bool isMouseDown = e.type == SDL_MOUSEBUTTONDOWN;
+
+			if (e.button.button == SDL_BUTTON_LEFT) {
+				gMouseData.isLeftMouseDown = isMouseDown;
+			}
+
+			if(e.button.button == SDL_BUTTON_RIGHT) 
+			{
+				gMouseData.isRightMouseDown = isMouseDown;
+			}
 		}
 
-		if(e.type == SDL_MOUSEBUTTONUP)
+		if (e.type == SDL_MOUSEWHEEL)
 		{
-			gMouseData.isMouseDown = false;
+			hasMouseScrollEvent = true;
+			gMouseData.mouseScrollOffset = e.wheel.y;
 		}
 
 		if(e.type == SDL_MOUSEMOTION)
@@ -144,6 +156,11 @@ bool Donut::updateLoops()
 
 		if(gEventLoopHandler != NULL)
 			gEventLoopHandler(e);
+	}
+
+	if(!hasMouseScrollEvent)
+	{
+		gMouseData.mouseScrollOffset = 0;
 	}
 
 	gMouseData.offsetX = gMouseData.mouseX - gMouseData.previousX;

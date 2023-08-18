@@ -23,9 +23,13 @@ struct Sprite
 
 struct MouseData
 {
-    bool isMouseDown = false;
     int offsetX, offsetY;
     int previousX, previousY, mouseX, mouseY;
+
+    bool isLeftMouseDown = false;
+    bool isRightMouseDown = false;
+
+    int mouseScrollOffset = 0;
 };
 
 typedef void (*RenderLoopFunc)(float delta);
