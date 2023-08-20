@@ -94,7 +94,6 @@ void renderLoop(float delta)
     program->setMat4Uniform("model", glm::mat4(1.0f));
     program->setMat4Uniform("view", camera.caculateViewMat());
     program->setMat4Uniform("projection", camera.getProjectionMat());
- 
     program->draw();
     
     SDL_GL_SwapWindow(Donut::gWindow);

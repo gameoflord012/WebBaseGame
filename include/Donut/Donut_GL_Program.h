@@ -14,7 +14,7 @@
 class Donut_GL_Program
 {
 public:
-    Donut_GL_Program(const char * vertexShader, const char * fragmentShader);
+    Donut_GL_Program(const char * vertexShaderPath, const char * fragmentShaderPath);
 	Donut_GL_Program(const Donut_ShaderSource & shaderSource, const Donut_ShaderSource & fragmentSource);
     ~Donut_GL_Program();
 	
