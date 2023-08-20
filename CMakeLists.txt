@@ -9,6 +9,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 find_package(Catch2 3 REQUIRED CONFIG)
 
 add_subdirectory(Donut)
+add_subdirectory(libs)
 
 add_executable(mygame main.cpp)
 add_executable(tests test.cpp)

@@ -1,5 +1,9 @@
 #include "Donut/Donut.h"
 
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
+
 SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;
 SDL_GLContext Donut::gContext = NULL;
@@ -9,6 +13,30 @@ MouseData Donut::gMouseData;
 Uint32 Donut::gRenderLoopTimer = 0;
 std::map<uint32_t, bool> Donut::gIsKeyPressed;
 
+const SDL_GLContext * Donut::get_SDL_GLContext()
+{
+	return &gContext;
+}
+
+void Donut::setupImgui(const SDL_Event & event)
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+
+	// Setup Platform/Renderer backends
+	ImGui_ImplSDL2_InitForOpenGL(gWindow, gContext);
+	ImGui_ImplOpenGL3_Init();
+
+	ImGui_ImplSDL2_ProcessEvent(&event); // Forward your event to backend
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	ImGui::ShowDemoWindow(); 
+}
 
 bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 {
@@ -92,6 +120,8 @@ bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 				// }
 			}
 		}
+
+		setupImgui();
 	}
 
 	return success;
@@ -178,6 +208,9 @@ bool Donut::updateLoops()
 	float deltaTime = (float)(SDL_GetTicks() - gRenderLoopTimer) / 1000;
 	gRenderLoopTimer = SDL_GetTicks();
 
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 	if(gRenderLoop != NULL)
 		gRenderLoop(deltaTime);
 
@@ -222,6 +255,10 @@ SDL_Texture* Donut::loadTexture( const char * path )
 
 void Donut::clean()
 {
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+
     //Destroy window	
     SDL_DestroyRenderer( gRenderer );
     SDL_DestroyWindow( gWindow );

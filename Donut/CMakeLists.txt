@@ -38,5 +38,6 @@ target_link_libraries(DonutShared PUBLIC
     SDL2::SDL2
     #box2d::box2d
     ${GLEW_LIBRARIES}
-    fmt::fmt)
+    fmt::fmt
+    imgui)
 

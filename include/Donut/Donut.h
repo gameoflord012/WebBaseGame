@@ -23,13 +23,13 @@ struct Sprite
 
 struct MouseData
 {
+    bool isMouseDown = false;
     int offsetX, offsetY;
     int previousX, previousY, mouseX, mouseY;
 
-    bool isLeftMouseDown = false;
-    bool isRightMouseDown = false;
-
-    int mouseScrollOffset = 0;
+    bool isLeftMouseDown;
+    bool isRightMouseDown;
+    int mouseScrollOffset;
 };
 
 typedef void (*RenderLoopFunc)(float delta);
@@ -40,6 +40,8 @@ class Donut
 public:
     static SDL_Window* gWindow;
     static SDL_Renderer* gRenderer;
+
+    static const SDL_GLContext * get_SDL_GLContext();
 
     static bool init(int screenWidth, int screenHeight,  RenderLoopFunc renderloop = NULL);
     static void setEventLoopHandler(EventLoopHandlerFunc eventLoopHandler);
@@ -59,6 +61,7 @@ private:
     static Uint32 gRenderLoopTimer;
     static MouseData gMouseData;
     static std::map<uint32_t, bool> gIsKeyPressed;
+    static void setupImgui();
 };
 
 #endif // DONUT_H
