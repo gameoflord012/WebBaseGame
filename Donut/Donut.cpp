@@ -18,26 +18,6 @@ const SDL_GLContext * Donut::get_SDL_GLContext()
 	return &gContext;
 }
 
-void Donut::setupImgui(const SDL_Event & event)
-{
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
-
-	// Setup Platform/Renderer backends
-	ImGui_ImplSDL2_InitForOpenGL(gWindow, gContext);
-	ImGui_ImplOpenGL3_Init();
-
-	ImGui_ImplSDL2_ProcessEvent(&event); // Forward your event to backend
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-	ImGui::ShowDemoWindow(); 
-}
-
 bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 {
     //Initialization flag
@@ -121,6 +101,30 @@ bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 			}
 		}
 
+		{
+			
+		}
+
+		auto setupImgui = [&]()
+		{
+			IMGUI_CHECKVERSION();
+			Donut_assert(ImGui::CreateContext(),
+			{
+				Donut_LogError("Imgui create context failed");
+			});
+
+			ImGuiIO& io = ImGui::GetIO();
+			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+			io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+
+			// Setup Platform/Renderer backends
+			Donut_assert(ImGui_ImplSDL2_InitForOpenGL(gWindow, gContext) && ImGui_ImplOpenGL3_Init(),
+			{
+				Donut_LogError("Imgui graphic backend init failed");
+			});
+		};
+
 		setupImgui();
 	}
 
@@ -153,36 +157,43 @@ bool Donut::updateLoops()
 			return false;
 		}
 
-		if(e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
+		ImGui_ImplSDL2_ProcessEvent(&e); // Forward your event to backend
+
+		auto SDL_input_handler = [&]()
 		{
-			bool isMouseDown = e.type == SDL_MOUSEBUTTONDOWN;
-
-			if (e.button.button == SDL_BUTTON_LEFT) {
-				gMouseData.isLeftMouseDown = isMouseDown;
-			}
-
-			if(e.button.button == SDL_BUTTON_RIGHT) 
+			if(e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
 			{
-				gMouseData.isRightMouseDown = isMouseDown;
+				bool isMouseDown = e.type == SDL_MOUSEBUTTONDOWN;
+
+				if (e.button.button == SDL_BUTTON_LEFT) {
+					gMouseData.isLeftMouseDown = isMouseDown;
+				}
+
+				if(e.button.button == SDL_BUTTON_RIGHT) 
+				{
+					gMouseData.isRightMouseDown = isMouseDown;
+				}
 			}
-		}
 
-		if (e.type == SDL_MOUSEWHEEL)
-		{
-			hasMouseScrollEvent = true;
-			gMouseData.mouseScrollOffset = e.wheel.y;
-		}
+			if (e.type == SDL_MOUSEWHEEL)
+			{
+				hasMouseScrollEvent = true;
+				gMouseData.mouseScrollOffset = e.wheel.y;
+			}
 
-		if(e.type == SDL_MOUSEMOTION)
-		{
-			gMouseData.mouseX = e.motion.x;
-			gMouseData.mouseY = e.motion.y;
-		}
+			if(e.type == SDL_MOUSEMOTION)
+			{
+				gMouseData.mouseX = e.motion.x;
+				gMouseData.mouseY = e.motion.y;
+			}
 
-		if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
-		{
-			gIsKeyPressed[e.key.keysym.sym] = e.type == SDL_KEYDOWN;
-		}
+			if(e.type == SDL_KEYDOWN || e.type == SDL_KEYUP)
+			{
+				gIsKeyPressed[e.key.keysym.sym] = e.type == SDL_KEYDOWN;
+			}
+		};
+
+		SDL_input_handler();
 
 		if(gEventLoopHandler != NULL)
 			gEventLoopHandler(e);
@@ -208,11 +219,24 @@ bool Donut::updateLoops()
 	float deltaTime = (float)(SDL_GetTicks() - gRenderLoopTimer) / 1000;
 	gRenderLoopTimer = SDL_GetTicks();
 
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	// (After event loop)
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+
+	SDL_GL_SwapWindow(Donut::gWindow);
+
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
 	if(gRenderLoop != NULL)
+	{
 		gRenderLoop(deltaTime);
+	}
+
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	return true;
 }

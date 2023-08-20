@@ -21,3 +21,7 @@
 [submodule "libs/fmtlib"]
 	path = libs/fmtlib
 	url = https://github.com/fmtlib/fmt.git
+[submodule "libs/imgui"]
+	path = libs/imgui
+	url = git@github.com:gameoflord012/imgui.git
+	branch = docking

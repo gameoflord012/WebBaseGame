@@ -61,7 +61,7 @@ private:
     static Uint32 gRenderLoopTimer;
     static MouseData gMouseData;
     static std::map<uint32_t, bool> gIsKeyPressed;
-    static void setupImgui();
+    static void setupImgui(const SDL_Event & event);
 };
 
 #endif // DONUT_H

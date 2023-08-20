@@ -96,8 +96,6 @@ void renderLoop(float delta)
     program->setMat4Uniform("projection", camera.getProjectionMat());
     program->draw();
     
-    SDL_GL_SwapWindow(Donut::gWindow);
-
     Donut_glCheckErrorAll();
 }
 
