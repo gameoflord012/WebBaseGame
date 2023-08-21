@@ -14,5 +14,6 @@ add_library(imgui SHARED
 
 target_include_directories(imgui PUBLIC
     ${IMGUI_LIB_DIRECTORY}/
-    ${IMGUI_LIB_DIRECTORY}/backends/
-    )
+    ${IMGUI_LIB_DIRECTORY}/backends/)
+
+target_compile_definitions(imgui PUBLIC -DIMGUI_DEFINE_MATH_OPERATORS)

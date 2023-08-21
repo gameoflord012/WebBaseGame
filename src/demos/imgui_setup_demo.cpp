@@ -1,7 +1,5 @@
 #include "Donut/Donut.h"
 
-#include "imgui.h"
-
 void renderLoop(float delta);
 
 int main()
@@ -13,5 +11,4 @@ int main()
 
 void renderLoop(float delta)
 {
-    ImGui::ShowDemoWindow();
 }

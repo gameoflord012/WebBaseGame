@@ -225,8 +225,6 @@ bool Donut::updateLoops()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	SDL_GL_SwapWindow(Donut::gWindow);
-
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -237,6 +235,8 @@ bool Donut::updateLoops()
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+	SDL_GL_SwapWindow(Donut::gWindow);
 
 	return true;
 }
