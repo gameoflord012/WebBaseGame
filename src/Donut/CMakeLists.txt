@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(Donut)
-
 #find_package(box2d REQUIRED CONFIG COMPONENTS box2d)
 find_package(SDL2 REQUIRED CONFIG REQUIRED COMPONENTS SDL2)
 find_package(PkgConfig REQUIRED)
@@ -13,7 +11,7 @@ set(DONUT_ASSETS_DIR ${CMAKE_SOURCE_DIR}/assets)
 set(DONUT_SHADERS_DIR ${CMAKE_SOURCE_DIR}/shaders) 
 set(DONUT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 
-set(DONUT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
+set(DONUT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 configure_file(${DONUT_SOURCE_DIR}/Donut.h.in ${DONUT_INCLUDE_DIR}/Donut/Donut.h)
 

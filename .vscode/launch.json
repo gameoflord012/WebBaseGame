@@ -5,11 +5,12 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "C++ mygame",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/demos/CameraDemo", // Replace with the path to your compiled executable
+            "program": "${workspaceFolder}/build/src/demos/ImguiDemo", // Replace with the path to your compiled executable
             "args": [], // Command-line arguments for your program (if any)
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

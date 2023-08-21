@@ -12,6 +12,8 @@ EventLoopHandlerFunc Donut::gEventLoopHandler = NULL;
 MouseData Donut::gMouseData;
 Uint32 Donut::gRenderLoopTimer = 0;
 std::map<uint32_t, bool> Donut::gIsKeyPressed;
+std::set<NewFrameEventFunc> Donut::sNewFrameEventListners;
+
 
 const SDL_GLContext * Donut::get_SDL_GLContext()
 {
@@ -224,6 +226,12 @@ bool Donut::updateLoops()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
+
+
+	for(const NewFrameEventFunc& listener : get_NewFrameEventListeners())
+	{
+		listener();
+	}
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);

@@ -6,7 +6,6 @@ add_library(imGuIZMOquat SHARED
 
 set(IMGUIZMO_IMGUI_FOLDER "")
 
-
 target_compile_definitions(imGuIZMOquat PRIVATE -DIMGUIZMO_IMGUI_FOLDER=${IMGUIZMO_IMGUI_FOLDER})
 
 target_include_directories(imGuIZMOquat PUBLIC
