@@ -1,10 +1,14 @@
+#define DONUT_USE_IMGUI
 #include "Donut/Donut.h"
+#include "ImGuizmo/ImGuizmo.h"
+
+#include "Donut/Donut_Camera.h"
 
 void renderLoop(float delta);
 
 void new_frame_event()
 {
-    Donut_Log("New frame!");
+    ImGuizmo::BeginFrame();
 }
 
 int main()
@@ -15,6 +19,35 @@ int main()
     while(Donut::updateLoops());
 }
 
+float gizmoMatrix[16] =
+{
+    1, 0, 0, 0,
+    0, 1, 0, 0,
+    0, 0, 1, 0,
+    0, 0, 0, 1
+};
+
+Donut_Camera camera({0, 3, 0.5}, {0, 0, 0}); 
+
 void renderLoop(float delta)
 {
+    float matrixTranslation[3], matrixRotation[3], matrixScale[3];
+
+    ImVec2 pos1(300, 300);
+    ImVec2 pos2(400, 300);
+    ImVec2 pos3(350, 400);
+    ImU32 color = IM_COL32(255, 0, 0, 255); // Color in RGBA format
+    ImGui::Begin("hello");
+    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+    draw_list->AddTriangleFilled(pos1, pos2, pos3, color);
+
+    ImGui::End();
+
+    ImGuizmo::SetRect(50, 50, 100, 100);
+
+    ImGuizmo::DrawGrid(
+        glm::value_ptr(camera.caculateViewMat()),
+        glm::value_ptr(camera.getProjectionMat()),
+        gizmoMatrix, 100);
+    
 }

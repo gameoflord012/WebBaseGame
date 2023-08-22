@@ -1,8 +1,7 @@
+#define DONUT_USE_IMGUI
+
 #include "Donut/Donut.h"
 
-#include "imgui.h"
-#include "imgui_impl_sdl2.h"
-#include "imgui_impl_opengl3.h"
 
 SDL_Window* Donut::gWindow = NULL;
 SDL_Renderer* Donut::gRenderer = NULL;
@@ -102,32 +101,27 @@ bool Donut::init(int screenWidth, int screenHeight,  RenderLoopFunc renderLoop)
 				// }
 			}
 		}
-
+		
+#ifdef DONUT_USE_IMGUI
+		IMGUI_CHECKVERSION();
+		Donut_assert(ImGui::CreateContext(),
 		{
-			
-		}
+			Donut_LogError("Imgui create context failed");
+		});
 
-		auto setupImgui = [&]()
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+#ifdef IMGUI_HAS_DOCK
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+#endif
+
+		// Setup Platform/Renderer backends
+		Donut_assert(ImGui_ImplSDL2_InitForOpenGL(gWindow, gContext) && ImGui_ImplOpenGL3_Init(),
 		{
-			IMGUI_CHECKVERSION();
-			Donut_assert(ImGui::CreateContext(),
-			{
-				Donut_LogError("Imgui create context failed");
-			});
-
-			ImGuiIO& io = ImGui::GetIO();
-			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-			io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
-
-			// Setup Platform/Renderer backends
-			Donut_assert(ImGui_ImplSDL2_InitForOpenGL(gWindow, gContext) && ImGui_ImplOpenGL3_Init(),
-			{
-				Donut_LogError("Imgui graphic backend init failed");
-			});
-		};
-
-		setupImgui();
+			Donut_LogError("Imgui graphic backend init failed");
+		});
+#endif
 	}
 
 	return success;
@@ -159,8 +153,9 @@ bool Donut::updateLoops()
 			return false;
 		}
 
+#ifdef DONUT_USE_IMGUI
 		ImGui_ImplSDL2_ProcessEvent(&e); // Forward your event to backend
-
+#endif
 		auto SDL_input_handler = [&]()
 		{
 			if(e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
@@ -220,12 +215,13 @@ bool Donut::updateLoops()
 	
 	float deltaTime = (float)(SDL_GetTicks() - gRenderLoopTimer) / 1000;
 	gRenderLoopTimer = SDL_GetTicks();
-
+#ifdef DONUT_USE_IMGUI
 	// (After event loop)
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
+#endif
 
 
 	for(const NewFrameEventFunc& listener : get_NewFrameEventListeners())
@@ -240,9 +236,10 @@ bool Donut::updateLoops()
 	{
 		gRenderLoop(deltaTime);
 	}
-
+#ifdef DONUT_USE_IMGUI
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+#endif
 
 	SDL_GL_SwapWindow(Donut::gWindow);
 
@@ -287,10 +284,11 @@ SDL_Texture* Donut::loadTexture( const char * path )
 
 void Donut::clean()
 {
+#ifdef DONUT_USE_IMGUI
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
-
+#endif
     //Destroy window	
     SDL_DestroyRenderer( gRenderer );
     SDL_DestroyWindow( gWindow );

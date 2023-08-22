@@ -10,7 +10,7 @@
 class Donut_Camera
 {
     public:
-        Donut_Camera(glm::vec3 cameraPos, glm::vec3 cameraFront);
+        Donut_Camera(glm::vec3 cameraPos, glm::vec3 lookAtPostion);
         glm::mat4 caculateViewMat() const;
         glm::mat4 getProjectionMat() const;
         glm::vec3 caculateCameraUp();

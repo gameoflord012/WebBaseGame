@@ -12,8 +12,8 @@ set(DONUT_GLOBAL_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 find_package(Catch2 3 REQUIRED CONFIG)
 
 add_subdirectory(src/Donut)
-add_subdirectory(src/imGuIZMOquat)
 add_subdirectory(src/demos)
+add_subdirectory(src/ImGuizmo)
 add_subdirectory(libs)
 
 add_executable(mygame main.cpp)

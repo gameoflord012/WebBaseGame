@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/libs/imgui/backends",
-                "${workspaceFolder}/libs/imgui"
+                "${workspaceFolder}/libs/imgui",
+                "${workspaceFolder}/vcpkg/installed/x64-linux/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

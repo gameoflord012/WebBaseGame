@@ -32,10 +32,12 @@ add_library(DonutShared SHARED
 
 target_include_directories(DonutShared PUBLIC ${DONUT_INCLUDE_DIR})
 
-target_link_libraries(DonutShared PUBLIC 
+target_link_libraries(DonutShared PUBLIC
     SDL2::SDL2
     #box2d::box2d
     ${GLEW_LIBRARIES}
-    fmt::fmt
-    imgui)
+    fmt::fmt)
+
+target_link_libraries(DonutShared PRIVATE
+    DonutImgui)
 

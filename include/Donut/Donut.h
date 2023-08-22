@@ -7,6 +7,15 @@
 #include <map>
 #include <set>
 
+#ifdef DONUT_USE_IMGUI
+	#ifndef DONUT_DISABLE_IMGUI_HEADER
+		#include "Donut/imgui/imgui.h"
+	#endif
+
+	#include "Donut/imgui/imgui_impl_sdl2.h"
+	#include "Donut/imgui/imgui_impl_opengl3.h"
+#endif
+
 #include "Donut/Donut_GL.h"
 #include "Donut/Donut_Log.h"
 
