@@ -27,7 +27,7 @@ float gizmoMatrix[16] =
     0, 0, 0, 1
 };
 
-Donut_Camera camera({0, 3, 0.5}, {0, 0, 0}); 
+Donut_Camera camera({0, 0, 50}, {0, 0, 0}); 
 
 void renderLoop(float delta)
 {
@@ -41,13 +41,18 @@ void renderLoop(float delta)
     ImDrawList* draw_list = ImGui::GetWindowDrawList();
     draw_list->AddTriangleFilled(pos1, pos2, pos3, color);
 
-    ImGui::End();
+    ImGuizmo::SetRect(
+        ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, 
+        ImGui::GetWindowWidth(), ImGui::GetWindowHeight());
 
-    ImGuizmo::SetRect(50, 50, 100, 100);
+    ImGuizmo::SetDrawlist();
 
     ImGuizmo::DrawGrid(
         glm::value_ptr(camera.caculateViewMat()),
         glm::value_ptr(camera.getProjectionMat()),
-        gizmoMatrix, 100);
+        gizmoMatrix, 10);
+
+    ImGui::End();
+
     
 }
